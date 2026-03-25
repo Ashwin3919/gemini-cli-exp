@@ -25,11 +25,7 @@ iterating 4–10 turns per navigation query, burning tokens and time proportiona
 to codebase size.
 
 The G+ReAct follows a different approach. It uses a SQLite-backed code index
-(`.gemini/gemini.idx`) that is built once with `/idx`.
-
-<img src="./G+ReAct.png" alt="G+ReAct" width="100%" />
-
-This index is **auto-refreshed every session start and every hour**. Every agent
+(`.gemini/gemini.idx`) that is built once with `/idx`. This index is **auto-refreshed every session start and every hour**. Every agent
 — main model and subagents — queries the graph before touching the filesystem.
 
 Benchmark on a medium-sized codebase, broken down by task complexity.
