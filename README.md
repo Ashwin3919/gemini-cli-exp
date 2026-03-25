@@ -180,7 +180,7 @@ index:
 cd your-project/
 gemini_experimental
 
-# Inside the CLI — run once to build the index
+# Inside the CLI — run once to build the index and restart the session for best performance. 
 /idx init
 ```
 
