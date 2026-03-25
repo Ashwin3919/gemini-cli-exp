@@ -158,7 +158,6 @@ npm install
 npm run build
 
 # 4. Link globally — makes gemini_experimental available on your PATH
-cd packages/cli
 npm link
 ```
 
@@ -182,7 +181,7 @@ cd your-project/
 gemini_experimental
 
 # Inside the CLI — run once to build the index
-/idx
+/idx init
 ```
 
 After that, the index auto-refreshes every time you start a session and every
