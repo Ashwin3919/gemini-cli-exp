@@ -13,9 +13,9 @@
 > changes how the agent navigates codebases at a protocol level. Use at your own
 > risk. Things will break. That is expected.
 
-</div>
+## Fork Built by : Ashwin Shirke
 
----
+</div>
 
 ## What Makes This Different
 
@@ -24,38 +24,90 @@ where codebase navigation resolves through file I/O — grep, read_file, glob �
 iterating 4–10 turns per navigation query, burning tokens and time proportional
 to codebase size.
 
-This fork introduces **G+ReAct** — Graph-Index-Augmented ReAct.
+The G+ReAct follows a different approach. It uses a SQLite-backed code index
+(`.gemini/gemini.idx`) that is built once with `/idx`.
 
-```
-Standard ReAct                          G+ReAct
-──────────────────────────────────      ──────────────────────────────────
-Reason: "find set_stance"               Reason: "find set_stance"
-Act:    grep_search("set_stance")       Act:    graph_search("set_stance")
-Obs:    50 matches, 12 files            Obs:    { file, line, callers,
-Reason: "narrow down"                            callees } in ~130ms
-Act:    read_file(...)                  Reason: "done navigating"
-Act:    read_file(...)
-...  (6–10 more turns)
-```
+<img src="./G+ReAct.png" alt="G+ReAct" width="100%" />
 
-A SQLite-backed code index (`.gemini/gemini.idx`) is built once with `/idx` and
-then **auto-refreshed every session start and every hour**. Every agent — main
-model and subagents — queries the graph before touching the filesystem.
+This index is **auto-refreshed every session start and every hour**. Every agent
+— main model and subagents — queries the graph before touching the filesystem.
 
-Early benchmark on a medium-sized codebase:
+Benchmark on a medium-sized codebase, broken down by task complexity.
 
-| Metric                          | Standard | G+ReAct |
-| ------------------------------- | -------- | ------- |
-| `read_file` calls per nav query |          |         |
-| Graph tool calls                |          |         |
-| Subagent duration               |          |         |
-| Total tokens                    |          |         |
-| Cache hit rate                  |          |         |
-| Avg lookup latency              |          |         |
+<table>
+  <tr>
+    <td><img src="./idx_docs/plot1_tokens_light.png" alt="Token comparison" width="100%"/></td>
+    <td><img src="./idx_docs/plot2_requests_light.png" alt="Request count comparison" width="100%"/></td>
+  </tr>
+  <tr>
+    <td><img src="./idx_docs/plot3_walltime_light.png" alt="Wall time comparison" width="100%"/></td>
+    <td><img src="./idx_docs/plot5_toolcalls_light.png" alt="Tool call breakdown" width="100%"/></td>
+  </tr>
+</table>
+
+| Task Complexity | Tokens (Standard) | Tokens (G+ReAct) | Wall Time (Standard) | Wall Time (G+ReAct) | Requests (Standard) | Requests (G+ReAct) |
+| --------------- | ----------------- | ---------------- | -------------------- | ------------------- | ------------------- | ------------------ |
+| Simple          | 70K               | 93K              | 99s                  | 101s                | 5                   | 6                  |
+| Moderate        | 298K              | 150K             | 103s                 | 77s                 | 15                  | 8                  |
+| Complex         | 313K              | 196K             | 181s                 | 98s                 | 18                  | 9                  |
+| Tricky          | 765K              | 444K             | 354s                 | 258s                | 42                  | 24                 |
+
+Graph tool call breakdown (G+ReAct): Simple 2 graph + 2 other, Moderate 7
+graph + 2 other, Complex 12 graph + 4 other, Tricky 21 graph + 6 other.
+
+### Key Takeaways
+
+- **Token Efficiency (moderate+ tasks)**: G+ReAct reduces total tokens by 37–50%
+  on moderate, complex, and tricky tasks by replacing iterative grep/read cycles
+  with targeted graph lookups. On simple tasks with few symbol lookups, the
+  index overhead results in slightly higher token use — the benefit is
+  structural navigation, not flat file reads.
+- **Request Reduction**: G+ReAct requires 43–50% fewer model requests on
+  moderate and above tasks. Each graph call resolves a lookup that would
+  otherwise require 1–3 additional model turns.
+- **Latency Advantage**: Graph lookups resolve the full dependency/caller chain
+  in a single ~38ms call. A grep is comparably fast (~40ms) but typically
+  triggers multiple follow-up `read_file` turns; G+ReAct avoids those turns
+  entirely.
+- **Wall Time**: Up to 46% faster on complex tasks (181s → 98s). The gap widens
+  with task complexity as the standard agent's iterative loop compounds.
+- **When the advantage is smallest**: Simple tasks involving only a few direct
+  file reads show near-identical performance. The graph index adds a small
+  overhead with no structural navigation payoff.
 
 For the full technical breakdown of the implementation, the loop mechanics, and
 how G+ReAct differs from standard ReAct at the code level, read
-**[idx_readme.md](./idx_readme.md)**.
+**[idx_readme.md](./idx_docs/idx_readme.md)**.
+
+---
+
+## Benchmark Sessions
+
+The [`idx_docs/`](./idx_docs/) directory contains raw demo session recordings
+used to produce the numbers above. Each session runs the same query against the
+same codebase on both agents so the comparison is direct:
+
+| File                        | Description                                       |
+| --------------------------- | ------------------------------------------------- |
+| `cli_simple.txt`            | Standard CLI — simple task session                |
+| `cli_modrate.txt`           | Standard CLI — moderate task session              |
+| `cli_complex.txt`           | Standard CLI — complex task session               |
+| `exp_simple.txt`            | G+ReAct — simple task session                     |
+| `exp_modrate.txt`           | G+ReAct — moderate task session                   |
+| `exp_complex.txt`           | G+ReAct — complex task session                    |
+| `plot1_tokens_light.png`    | Token comparison across task types                |
+| `plot2_requests_light.png`  | Request count comparison                          |
+| `plot3_walltime_light.png`  | Wall time comparison                              |
+| `plot5_toolcalls_light.png` | Tool call breakdown                               |
+| `metrics_summary.txt`       | Raw numbers behind all benchmark tables           |
+| `findings.md`               | Full per-round session analysis and key takeaways |
+| `idx_readme.md`             | Technical implementation reference for G+ReAct    |
+| `EXP CLI.pdf`               | Slide deck — experimental CLI overview            |
+| `EXP CLI 2.pdf`             | Slide deck — benchmark deep-dive                  |
+
+The `.txt` files are unedited terminal output. You can read them side by side to
+see exactly how the two agents handle the same query — the tool call sequence,
+intermediate reasoning, and final answer are all visible.
 
 ---
 
@@ -68,11 +120,11 @@ how G+ReAct differs from standard ReAct at the code level, read
 | GEMINI.md on re-index | Overwritten                  | Smart write — prepends only missing lines    |
 | Index freshness       | Manual `/idx`                | Auto-refresh at session start + every 1hr    |
 | Loop convergence      | O(files matching grep) turns | O(1) turns for symbol navigation             |
-| Startup banner        | Default diamond icon         | — you can see it above                       |
+| Startup banner        | Starting CLI naming          | — you can see it above                       |
 
 ---
 
-## ⚠️ Beta Disclaimer
+## Beta Disclaimer
 
 This fork is in **active development and beta stage**. You should:
 
@@ -83,11 +135,11 @@ This fork is in **active development and beta stage**. You should:
 - Treat the graph index as a best-effort cache — it can be stale or incomplete
 
 **Large repository notice:** The current beta is **not suitable for very large
-codebases** (e.g. PyTorch, Linux kernel, or similar projects with tens of
-thousands of files). The regex-based parser has known coverage gaps on complex
-Python patterns and C extensions, and indexing time at that scale has not been
-validated. Tested and reasonable on small-to-medium repositories (up to a few
-thousand files). Large-repo support is planned for a future release.
+codebases** (projects with tens of thousands of files). The regex-based parser
+has known coverage gaps on complex Python patterns and C extensions, and
+indexing time at that scale has not been validated. All benchmarks and testing
+were conducted on a medium-sized repository (up to a few thousand files).
+Large-repo support is planned for a future release.
 
 You have been warned. Now install it.
 
@@ -100,8 +152,8 @@ yourself:
 
 ```bash
 # 1. Clone
-git clone https://github.com/[repo-coming-soon]/gemini-cli-experimental
-cd gemini-cli-experimental
+git clone https://github.com/Ashwin3919/gemini-idx-cli.git &&
+cd gemini-idx-cli
 
 # 2. Install dependencies
 npm install
@@ -153,7 +205,7 @@ The agent will use `graph_search` and `graph_query` instead of scanning files.
 
 ---
 
-## 🔐 Authentication
+## Authentication
 
 This fork uses the same authentication as the official CLI. All three options
 work:
@@ -196,7 +248,7 @@ Everything from the official CLI works. The fork adds:
 
 | Command                | What it does                                                  |
 | ---------------------- | ------------------------------------------------------------- |
-| `/idx`                 | Build or rebuild the code graph index for the current project |
+| `/idx init`            | Build or rebuild the code graph index for the current project |
 | `graph_search("name")` | Find where a symbol is defined — file, line, args             |
 | `graph_query("name")`  | Trace full caller/callee chain for a symbol                   |
 
@@ -215,7 +267,64 @@ gemini_experimental -m gemini-2.5-flash
 
 ---
 
-## How the Index Works
+## How G+ReAct Transforms the Loop
+
+Standard ReAct agents navigate codebases by scanning files (`grep_search`) and
+reading large chunks of text (`read_file`) to find definitions. This creates a
+high-latency, token-heavy loop proportional to codebase size.
+
+**G+ReAct** transforms this into a **Graph-First hierarchy** by modifying the
+agent's core instructions:
+
+1.  **Prompt-Level Priority**: The agent's system prompt is updated with a
+    strict rule: **Graph search is the mandatory first step for all symbol
+    lookups.** Grep is relegated to "search for strings/comments only."
+2.  **Breadth-First Exploration**: Instead of opening a file and reading its
+    code to see what it calls, the agent uses `graph_search` to resolve
+    location, arguments, callers, and callees in a single JSON block.
+3.  **Transitive Tracing**: `graph_query` allows the agent to trace entire
+    dependency chains (A → B → C) across the project without ever reading the
+    source code of the intermediate files.
+4.  **Targeted Context**: `read_file` is only used _after_ the agent knows the
+    exact file and line range from a graph result. This prevents the "context
+    window cliff" where irrelevant code consumes the model's memory.
+
+```mermaid
+graph TD
+    UserQuery[User Query] --> AgentReason[Agent Reasoning]
+    AgentReason --> GraphCheck{Graph Index?}
+    GraphCheck -- Yes --> GSearch[graph_search / graph_query]
+    GSearch --> TargetedRead[read_file target range]
+    GraphCheck -- No --> GrepLoop[grep_search / ls loop]
+    GrepLoop --> FullRead[read_file entire file]
+    TargetedRead --> TaskDone[Task Complete]
+    FullRead --> GrepLoop
+```
+
+### Complexity Comparison: $O(n)$ vs $O(1)$
+
+In a traditional agent loop, finding a function definition is a linear search
+across the entire codebase.
+
+| Feature               | Standard ReAct (Grep)                    | G+ReAct (Graph)                      |
+| :-------------------- | :--------------------------------------- | :----------------------------------- |
+| **Search Complexity** | **$O(n)$** (where $n$ = files/matches)   | **$O(1)$** (constant time lookup)    |
+| **Mechanism**         | Iterative string matching + file reading | Hashed SQLite symbol index           |
+| **Typical Turns**     | 5–12 turns per symbol                    | **1 turn** per symbol                |
+| **Example Case**      | "Find `momentumEquation`" → 50+ greps    | "Find `momentumEquation`" → 1 result |
+
+**A Simple Case Study:** Imagine searching for a symbol `process_data` in a repo
+with 5,000 files.
+
+- **Standard:** The agent greps `process_data`, finds 80 matches in 20 files,
+  enters a loop to `read_file` each one to identify the definition, potentially
+  missing it if it's in a deep subdirectory not yet explored. This costs time
+  and tokens for every file opened.
+- **G+ReAct:** The agent calls `graph_search("process_data")`. The SQLite index
+  immediately returns the exact file path, line number, and caller metadata. The
+  agent jumps directly to the definition in one step.
+
+### Technical Workflow
 
 ```
 /idx  →  GraphService.indexProject()
@@ -233,7 +342,8 @@ Session start  →  autoIndex.ts
 The index file lives at `.gemini/gemini.idx`. Add `.gemini/` to your
 `.gitignore` — it is a local cache, not source code.
 
-**Full technical implementation details → [idx_readme.md](./idx_readme.md)**
+**Full technical implementation details →
+[idx_readme.md](./idx_docs/idx_readme.md)**
 
 ---
 
@@ -257,7 +367,7 @@ extend the graph index:
 - Open an issue describing what broke and on what codebase
 - PRs welcome — especially for language coverage beyond Python (C++, Go, Rust
   call edge parsing)
-- Read [idx_readme.md](./idx_readme.md) before touching anything in
+- Read [idx_readme.md](./idx_docs/idx_readme.md) before touching anything in
   `graphService.ts` or `graphTools.ts`
 
 ---
@@ -270,312 +380,3 @@ Index everything.**
 </div>
 
 ---
-
----
-
-# Original Gemini CLI README
-
-> Everything below is the upstream README from
-> [google-gemini/gemini-cli](https://github.com/google-gemini/gemini-cli),
-> preserved in full. All credit to the Google Gemini team.
-
----
-
-[![Gemini CLI CI](https://github.com/google-gemini/gemini-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/google-gemini/gemini-cli/actions/workflows/ci.yml)
-[![Gemini CLI E2E (Chained)](https://github.com/google-gemini/gemini-cli/actions/workflows/chained_e2e.yml/badge.svg)](https://github.com/google-gemini/gemini-cli/actions/workflows/chained_e2e.yml)
-[![Version](https://img.shields.io/npm/v/@google/gemini-cli)](https://www.npmjs.com/package/@google/gemini-cli)
-[![License](https://img.shields.io/github/license/google-gemini/gemini-cli)](https://github.com/google-gemini/gemini-cli/blob/main/LICENSE)
-
-![Gemini CLI Screenshot](/docs/assets/gemini-screenshot.png)
-
-Gemini CLI is an open-source AI agent that brings the power of Gemini directly
-into your terminal. It provides lightweight access to Gemini, giving you the
-most direct path from your prompt to our model.
-
-Learn all about Gemini CLI in our [documentation](https://geminicli.com/docs/).
-
-## 🚀 Why Gemini CLI?
-
-- **🎯 Free tier**: 60 requests/min and 1,000 requests/day with personal Google
-  account.
-- **🧠 Powerful Gemini 3 models**: Access to improved reasoning and 1M token
-  context window.
-- **🔧 Built-in tools**: Google Search grounding, file operations, shell
-  commands, web fetching.
-- **🔌 Extensible**: MCP (Model Context Protocol) support for custom
-  integrations.
-- **💻 Terminal-first**: Designed for developers who live in the command line.
-- **🛡️ Open source**: Apache 2.0 licensed.
-
-## 📦 Installation
-
-See
-[Gemini CLI installation, execution, and releases](./docs/get-started/installation.md)
-for recommended system specifications and a detailed installation guide.
-
-### Quick Install
-
-#### Run instantly with npx
-
-```bash
-npx @google/gemini-cli
-```
-
-#### Install globally with npm
-
-```bash
-npm install -g @google/gemini-cli
-```
-
-#### Install globally with Homebrew (macOS/Linux)
-
-```bash
-brew install gemini-cli
-```
-
-#### Install globally with MacPorts (macOS)
-
-```bash
-sudo port install gemini-cli
-```
-
-#### Install with Anaconda (for restricted environments)
-
-```bash
-conda create -y -n gemini_env -c conda-forge nodejs
-conda activate gemini_env
-npm install -g @google/gemini-cli
-```
-
-## Release Cadence and Tags
-
-See [Releases](./docs/releases.md) for more details.
-
-### Preview
-
-```bash
-npm install -g @google/gemini-cli@preview
-```
-
-### Stable
-
-```bash
-npm install -g @google/gemini-cli@latest
-```
-
-### Nightly
-
-```bash
-npm install -g @google/gemini-cli@nightly
-```
-
-## 📋 Key Features
-
-### Code Understanding & Generation
-
-- Query and edit large codebases
-- Generate new apps from PDFs, images, or sketches using multimodal capabilities
-- Debug issues and troubleshoot with natural language
-
-### Automation & Integration
-
-- Automate operational tasks like querying pull requests or handling complex
-  rebases
-- Use MCP servers to connect new capabilities, including
-  [media generation with Imagen, Veo or Lyria](https://github.com/GoogleCloudPlatform/vertex-ai-creative-studio/tree/main/experiments/mcp-genmedia)
-- Run non-interactively in scripts for workflow automation
-
-### Advanced Capabilities
-
-- Ground your queries with built-in
-  [Google Search](https://ai.google.dev/gemini-api/docs/grounding) for real-time
-  information
-- Conversation checkpointing to save and resume complex sessions
-- Custom context files (GEMINI.md) to tailor behavior for your projects
-
-### GitHub Integration
-
-Integrate Gemini CLI directly into your GitHub workflows with
-[**Gemini CLI GitHub Action**](https://github.com/google-github-actions/run-gemini-cli):
-
-- **Pull Request Reviews**: Automated code review with contextual feedback and
-  suggestions
-- **Issue Triage**: Automated labeling and prioritization of GitHub issues based
-  on content analysis
-- **On-demand Assistance**: Mention `@gemini-cli` in issues and pull requests
-  for help with debugging, explanations, or task delegation
-- **Custom Workflows**: Build automated, scheduled and on-demand workflows
-  tailored to your team's needs
-
-## 🔐 Authentication Options
-
-Choose the authentication method that best fits your needs:
-
-### Option 1: Sign in with Google (OAuth login using your Google Account)
-
-**✨ Best for:** Individual developers as well as anyone who has a Gemini Code
-Assist License.
-
-**Benefits:**
-
-- **Free tier**: 60 requests/min and 1,000 requests/day
-- **Gemini 3 models** with 1M token context window
-- **No API key management** - just sign in with your Google account
-- **Automatic updates** to latest models
-
-```bash
-gemini
-```
-
-```bash
-# Set your Google Cloud Project (for paid Code Assist License)
-export GOOGLE_CLOUD_PROJECT="YOUR_PROJECT_ID"
-gemini
-```
-
-### Option 2: Gemini API Key
-
-**✨ Best for:** Developers who need specific model control or paid tier access
-
-```bash
-# Get your key from https://aistudio.google.com/apikey
-export GEMINI_API_KEY="YOUR_API_KEY"
-gemini
-```
-
-### Option 3: Vertex AI
-
-**✨ Best for:** Enterprise teams and production workloads
-
-```bash
-export GOOGLE_API_KEY="YOUR_API_KEY"
-export GOOGLE_GENAI_USE_VERTEXAI=true
-gemini
-```
-
-For Google Workspace accounts and other authentication methods, see the
-[authentication guide](./docs/get-started/authentication.md).
-
-## 🚀 Getting Started
-
-### Basic Usage
-
-```bash
-# Start in current directory
-gemini
-
-# Include multiple directories
-gemini --include-directories ../lib,../docs
-
-# Use specific model
-gemini -m gemini-2.5-flash
-
-# Non-interactive
-gemini -p "Explain the architecture of this codebase"
-
-# Structured output
-gemini -p "Explain the architecture of this codebase" --output-format json
-
-# Streaming
-gemini -p "Run tests and deploy" --output-format stream-json
-```
-
-### Quick Examples
-
-```bash
-# Start a new project
-cd new-project/
-gemini
-> Write me a Discord bot that answers questions using a FAQ.md file I will provide
-
-# Analyze existing code
-git clone https://github.com/google-gemini/gemini-cli
-cd gemini-cli
-gemini
-> Give me a summary of all of the changes that went in yesterday
-```
-
-## 📚 Documentation
-
-### Getting Started
-
-- [**Quickstart Guide**](./docs/get-started/index.md)
-- [**Authentication Setup**](./docs/get-started/authentication.md)
-- [**Configuration Guide**](./docs/reference/configuration.md)
-- [**Keyboard Shortcuts**](./docs/reference/keyboard-shortcuts.md)
-
-### Core Features
-
-- [**Commands Reference**](./docs/reference/commands.md)
-- [**Custom Commands**](./docs/cli/custom-commands.md)
-- [**Context Files (GEMINI.md)**](./docs/cli/gemini-md.md)
-- [**Checkpointing**](./docs/cli/checkpointing.md)
-- [**Token Caching**](./docs/cli/token-caching.md)
-
-### Tools & Extensions
-
-- [**Built-in Tools Overview**](./docs/reference/tools.md)
-  - [File System Operations](./docs/tools/file-system.md)
-  - [Shell Commands](./docs/tools/shell.md)
-  - [Web Fetch & Search](./docs/tools/web-fetch.md)
-- [**MCP Server Integration**](./docs/tools/mcp-server.md)
-- [**Custom Extensions**](./docs/extensions/index.md)
-
-### Advanced Topics
-
-- [**Headless Mode (Scripting)**](./docs/cli/headless.md)
-- [**IDE Integration**](./docs/ide-integration/index.md)
-- [**Sandboxing & Security**](./docs/cli/sandbox.md)
-- [**Trusted Folders**](./docs/cli/trusted-folders.md)
-- [**Enterprise Guide**](./docs/cli/enterprise.md)
-- [**Telemetry & Monitoring**](./docs/cli/telemetry.md)
-- [**Local development**](./docs/local-development.md)
-
-### Troubleshooting & Support
-
-- [**Troubleshooting Guide**](./docs/resources/troubleshooting.md)
-- [**FAQ**](./docs/resources/faq.md)
-- Use `/bug` command to report issues directly from the CLI.
-
-### Using MCP Servers
-
-Configure MCP servers in `~/.gemini/settings.json` to extend Gemini CLI with
-custom tools:
-
-```text
-> @github List my open pull requests
-> @slack Send a summary of today's commits to #dev channel
-> @database Run a query to find inactive users
-```
-
-See the [MCP Server Integration guide](./docs/tools/mcp-server.md) for setup
-instructions.
-
-## 🤝 Contributing
-
-We welcome contributions! Gemini CLI is fully open source (Apache 2.0), and we
-encourage the community to:
-
-- Report bugs and suggest features.
-- Improve documentation.
-- Submit code improvements.
-- Share your MCP servers and extensions.
-
-See our [Contributing Guide](./CONTRIBUTING.md) for development setup, coding
-standards, and how to submit pull requests.
-
-Check our [Official Roadmap](https://github.com/orgs/google-gemini/projects/11)
-for planned features and priorities.
-
-## 📖 Resources
-
-- **[Official Roadmap](./ROADMAP.md)**
-- **[Changelog](./docs/changelogs/index.md)**
-- **[NPM Package](https://www.npmjs.com/package/@google/gemini-cli)**
-- **[GitHub Issues](https://github.com/google-gemini/gemini-cli/issues)**
-- **[Security Advisories](https://github.com/google-gemini/gemini-cli/security/advisories)**
-
-### Uninstall
-
-See the [Uninstall Guide](./docs/resources/uninstall.md) for removal
-instructions.

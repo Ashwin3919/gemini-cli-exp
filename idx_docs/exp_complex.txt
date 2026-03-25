@@ -1,0 +1,752 @@
+
+
+               ████       ██████  ███████ ███    ███ ██ ███    ██ ██      ██████ ██      ██      ███████ ██   ██ ██████
+                ████     ██       ██      ████  ████ ██ ████   ██ ██     ██      ██      ██      ██       ██ ██  ██   ██
+                 ████    ██   ███ █████   ██ ████ ██ ██ ██ ██  ██ ██     ██      ██      ██      █████     ███   ██████
+                ████     ██    ██ ██      ██  ██  ██ ██ ██  ██ ██ ██     ██      ██      ██      ██       ██ ██  ██
+               ████       ██████  ███████ ██      ██ ██ ██   ████ ██      ██████ ███████ ██      ███████ ██   ██ ██      
+
+                                              Gemini Experimental CLI v0.36.0-experimental
+                                         Signed in with Google: user@example.com /auth
+                                         Plan: Gemini Code Assist in Google One AI Pro /upgrade
+
+                                            v0.36.0-experimental < ## beta experimental ## >
+
+
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ We're making changes to Gemini CLI that may impact your workflow.                                                                   │
+│ What's Changing: We are adding more robust detection of policy-violating use cases and changing how we prioritize traffic.          │
+│ How it affects you: This may result in higher capacity-related errors during periods of high traffic.                               │
+│ Read more: https://goo.gle/geminicli-updates                                                                                        │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+ > use graph_serach and graph_query to do thsi : Find how module directory (`src/core/`, `src/physics/`, `src/solver/`, `src/utils/`)
+   are linked to other modules it imports from and which modules import from it. Draw the dependency graph.
+✦ I will begin by listing the files in the src directory and its subdirectories to identify the primary modules and their symbols.
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✓  ReadFolder src/core/                                                                                                         │
+│                                                                                                                                 │
+│ Listed 3 item(s).                                                                                                               │
+│                                                                                                                                 │
+│ ✓  ReadFolder src/physics/                                                                                                      │
+│                                                                                                                                 │
+│ Listed 3 item(s).                                                                                                               │
+│                                                                                                                                 │
+│ ✓  ReadFolder src/solver/                                                                                                       │
+│                                                                                                                                 │
+│ Listed 2 item(s).                                                                                                               │
+│                                                                                                                                 │
+│ ✓  ReadFolder src/utils/                                                                                                        │
+│                                                                                                                                 │
+│ Listed 4 item(s).                                                                                                               │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+✦ I'll use graph_search on the core classes and functions to trace their interactions and build the dependency map.
+│                                                                                                                                 │
+│ ✓  Graph Search Searching code index for "Box"                                                                                  │
+│                                                                                                                                 │
+│ [                                                                                                                               │
+│   {                                                                                                                             │
+│     "id": "cls:Box",                                                                                                            │
+│     "type": "class",                                                                                                            │
+│     "name": "Box",                                                                                                              │
+│     "file": "src/core/box.py",                                                                                                  │
+│     "line": 10,                                                                                                                 │
+│     "args": null,                                                                                                               │
+│     "class_id": null,                                                                                                           │
+│     "calls": [],                                                                                                                │
+│     "calledBy": [],                                                                                                             │
+│     "methods": []                                                                                                               │
+│   },                                                                                                                            │
+│   {                                                                                                                             │
+│     "id": "fn:test_box_wave_numbers",                                                                                           │
+│     "type": "function",                                                                                                         │
+│     "name": "test_box_wave_numbers",                                                                                            │
+│     "file": "tests/test_core.py",                                                                                               │
+│     "line": 33,                                                                                                                 │
+│     "args": null,                                                                                                               │
+│     "class_id": null,                                                                                                           │
+│     "calls": [],                                                                                                                │
+│     "calledBy": []                                                                                                              │
+│   },                                                                                                                            │
+│   {                                                                                                                             │
+│     "id": "fn:test_box_3d_shapes",                                                                                              │
+│     "type": "function",                                                                                                         │
+│     "name": "test_box_3d_shapes",                                                                                               │
+│     "file": "tests/test_core.py",                                                                                               │
+│     "line": 57,                                                                                                                 │
+│     "args": null,                                                                                                               │
+│     "class_id": null,                                                                                                           │
+│     "calls": [],                                                                                                                │
+│     "calledBy": []                                                                                                              │
+│   },                                                                                                                            │
+│   {                                                                                                                             │
+│     "id": "fn:test_positions_within_box",                                                                                       │
+│                                                                                                                                 │
+│ ✓  Graph Search Searching code index for "Cosmology"                                                                            │
+│                                                                                                                                 │
+│ [                                                                                                                               │
+│   {                                                                                                                             │
+│     "id": "cls:Cosmology",                                                                                                      │
+│     "type": "class",                                                                                                            │
+│     "name": "Cosmology",                                                                                                        │
+│     "file": "src/physics/cosmology.py",                                                                                         │
+│     "line": 6,                                                                                                                  │
+│     "args": null,                                                                                                               │
+│     "class_id": null,                                                                                                           │
+│     "calls": [],                                                                                                                │
+│     "calledBy": [],                                                                                                             │
+│     "methods": [                                                                                                                │
+│       {                                                                                                                         │
+│         "id": "fn:OmegaK",                                                                                                      │
+│         "name": "OmegaK",                                                                                                       │
+│         "line": 12,                                                                                                             │
+│         "args": "self",                                                                                                         │
+│         "file": "src/physics/cosmology.py"                                                                                      │
+│       },                                                                                                                        │
+│       {                                                                                                                         │
+│         "id": "fn:G",                                                                                                           │
+│         "name": "G",                                                                                                            │
+│         "line": 16,                                                                                                             │
+│         "args": "self",                                                                                                         │
+│         "file": "src/physics/cosmology.py"                                                                                      │
+│       },                                                                                                                        │
+│       {                                                                                                                         │
+│         "id": "fn:da",                                                                                                          │
+│         "name": "da",                                                                                                           │
+│         "line": 19,                                                                                                             │
+│         "args": "self, a",                                                                                                      │
+│         "file": "src/physics/cosmology.py"                                                                                      │
+│       },                                                                                                                        │
+│       {                                                                                                                         │
+│         "id": "fn:growing_mode",                                                                                                │
+│         "name": "growing_mode",                                                                                                 │
+│         "line": 25,                                                                                                             │
+│                                                                                                                                 │
+│ ✓  Graph Search Searching code index for "Zeldovich"                                                                            │
+│                                                                                                                                 │
+│ [                                                                                                                               │
+│   {                                                                                                                             │
+│     "id": "cls:Zeldovich",                                                                                                      │
+│     "type": "class",                                                                                                            │
+│     "name": "Zeldovich",                                                                                                        │
+│     "file": "src/physics/initial_conds.py",                                                                                     │
+│     "line": 11,                                                                                                                 │
+│     "args": null,                                                                                                               │
+│     "class_id": null,                                                                                                           │
+│     "calls": [],                                                                                                                │
+│     "calledBy": [],                                                                                                             │
+│     "methods": [                                                                                                                │
+│       {                                                                                                                         │
+│         "id": "fn:__init__",                                                                                                    │
+│         "name": "__init__",                                                                                                     │
+│         "line": 12,                                                                                                             │
+│         "args": "self, B_mass, B_force, cosmology, phi",                                                                        │
+│         "file": "src/physics/initial_conds.py"                                                                                  │
+│       },                                                                                                                        │
+│       {                                                                                                                         │
+│         "id": "fn:state",                                                                                                       │
+│         "name": "state",                                                                                                        │
+│         "line": 22,                                                                                                             │
+│         "args": "self, a_init: float",                                                                                          │
+│         "file": "src/physics/initial_conds.py"                                                                                  │
+│       },                                                                                                                        │
+│       {                                                                                                                         │
+│         "id": "fn:particle_mass",                                                                                               │
+│         "name": "particle_mass",                                                                                                │
+│         "line": 29,                                                                                                             │
+│         "args": "self",                                                                                                         │
+│         "file": "src/physics/initial_conds.py"                                                                                  │
+│       }                                                                                                                         │
+│     ]                                                                                                                           │
+│   },                                                                                                                            │
+│   {                                                                                                                             │
+│     "id": "fn:test_zeldovich_3d_shape",                                                                                         │
+│                                                                                                                                 │
+│ ✓  Graph Search Searching code index for "PoissonVlasov"                                                                        │
+│                                                                                                                                 │
+│ [                                                                                                                               │
+│   {                                                                                                                             │
+│     "id": "cls:PoissonVlasov",                                                                                                  │
+│     "type": "class",                                                                                                            │
+│     "name": "PoissonVlasov",                                                                                                    │
+│     "file": "src/physics/system.py",                                                                                            │
+│     "line": 9,                                                                                                                  │
+│     "args": null,                                                                                                               │
+│     "class_id": null,                                                                                                           │
+│     "calls": [],                                                                                                                │
+│     "calledBy": [],                                                                                                             │
+│     "methods": [                                                                                                                │
+│       {                                                                                                                         │
+│         "id": "fn:_pm_force",                                                                                                   │
+│         "name": "_pm_force",                                                                                                    │
+│         "line": 35,                                                                                                             │
+│         "args": "self, x_grid, phi, da",                                                                                        │
+│         "file": "src/physics/system.py"                                                                                         │
+│       },                                                                                                                        │
+│       {                                                                                                                         │
+│         "id": "fn:_morton_encode",                                                                                              │
+│         "name": "_morton_encode",                                                                                               │
+│         "line": 43,                                                                                                             │
+│         "args": "self, x_grid",                                                                                                 │
+│         "file": "src/physics/system.py"                                                                                         │
+│       },                                                                                                                        │
+│       {                                                                                                                         │
+│         "id": "fn:_pp_force",                                                                                                   │
+│         "name": "_pp_force",                                                                                                    │
+│         "line": 56,                                                                                                             │
+│         "args": "self, pos, a, da",                                                                                             │
+│         "file": "src/physics/system.py"                                                                                         │
+│       },                                                                                                                        │
+│       {                                                                                                                         │
+│         "id": "fn:force_on_i",                                                                                                  │
+│         "name": "force_on_i",                                                                                                   │
+│         "line": 84,                                                                                                             │
+│                                                                                                                                 │
+│ ✓  Graph Search Searching code index for "State"                                                                                │
+│                                                                                                                                 │
+│ [                                                                                                                               │
+│   {                                                                                                                             │
+│     "id": "fn:state",                                                                                                           │
+│     "type": "function",                                                                                                         │
+│     "name": "state",                                                                                                            │
+│     "file": "src/physics/initial_conds.py",                                                                                     │
+│     "line": 22,                                                                                                                 │
+│     "args": "self, a_init: float",                                                                                              │
+│     "class_id": "cls:Zeldovich",                                                                                                │
+│     "calls": [                                                                                                                  │
+│       "fn:a2r",                                                                                                                 │
+│       "fn:_grid_to_particles"                                                                                                   │
+│     ],                                                                                                                          │
+│     "calledBy": [                                                                                                               │
+│       "fn:plot_particles",                                                                                                      │
+│       "fn:run_simulation",                                                                                                      │
+│       "fn:test_zeldovich_3d_shape",                                                                                             │
+│       "fn:test_3d_pm_simulation_advances_and_stays_finite",                                                                     │
+│       "fn:test_particle_count",                                                                                                 │
+│       "fn:test_mean_density_unity",                                                                                             │
+│       "fn:test_small_displacement_at_early_time",                                                                               │
+│       "fn:test_positions_within_box",                                                                                           │
+│       "fn:test_momentum_proportional_to_displacement_eds",                                                                      │
+│       "fn:test_single_pm_step_runs_and_advances",                                                                               │
+│       "fn:test_p3m_step_runs_and_advances"                                                                                      │
+│     ]                                                                                                                           │
+│   },                                                                                                                            │
+│   {                                                                                                                             │
+│     "id": "cls:State",                                                                                                          │
+│     "type": "class",                                                                                                            │
+│     "name": "State",                                                                                                            │
+│     "file": "src/solver/state.py",                                                                                              │
+│     "line": 14,                                                                                                                 │
+│     "args": null,                                                                                                               │
+│     "class_id": null,                                                                                                           │
+│     "calls": [],                                                                                                                │
+│     "calledBy": [],                                                                                                             │
+│                                                                                                                                 │
+│ ✓  Graph Search Searching code index for "HamiltonianSystem"                                                                    │
+│                                                                                                                                 │
+│ [                                                                                                                               │
+│   {                                                                                                                             │
+│     "id": "cls:HamiltonianSystem",                                                                                              │
+│     "type": "class",                                                                                                            │
+│     "name": "HamiltonianSystem",                                                                                                │
+│     "file": "src/solver/state.py",                                                                                              │
+│     "line": 19,                                                                                                                 │
+│     "args": null,                                                                                                               │
+│     "class_id": null,                                                                                                           │
+│     "calls": [],                                                                                                                │
+│     "calledBy": [],                                                                                                             │
+│     "methods": [                                                                                                                │
+│       {                                                                                                                         │
+│         "id": "fn:positionEquation",                                                                                            │
+│         "name": "positionEquation",                                                                                             │
+│         "line": 21,                                                                                                             │
+│         "args": "self, s: State",                                                                                               │
+│         "file": "src/solver/state.py"                                                                                           │
+│       },                                                                                                                        │
+│       {                                                                                                                         │
+│         "id": "fn:momentumEquation",                                                                                            │
+│         "name": "momentumEquation",                                                                                             │
+│         "line": 23,                                                                                                             │
+│         "args": "self, s: State",                                                                                               │
+│         "file": "src/solver/state.py"                                                                                           │
+│       }                                                                                                                         │
+│     ]                                                                                                                           │
+│   }                                                                                                                             │
+│ ]                                                                                                                               │
+│                                                                                                                                 │
+│ ✓  Graph Search Searching code index for "leap_frog"                                                                            │
+│                                                                                                                                 │
+│ [                                                                                                                               │
+│   {                                                                                                                             │
+│     "id": "fn:leap_frog",                                                                                                       │
+│     "type": "function",                                                                                                         │
+│     "name": "leap_frog",                                                                                                        │
+│     "file": "src/solver/integrator.py",                                                                                         │
+│     "line": 10,                                                                                                                 │
+│     "args": "dt: float, h: HamiltonianSystem[jnp.ndarray], s: State",                                                           │
+│     "class_id": null,                                                                                                           │
+│     "calls": [                                                                                                                  │
+│       "fn:kick",                                                                                                                │
+│       "fn:wait",                                                                                                                │
+│       "fn:drift",                                                                                                               │
+│       "fn:momentumEquation",                                                                                                    │
+│       "fn:positionEquation"                                                                                                     │
+│     ],                                                                                                                          │
+│     "calledBy": [                                                                                                               │
+│       "fn:leapfrog_step_scan",                                                                                                  │
+│       "fn:body_fn",                                                                                                             │
+│       "fn:test_3d_pm_simulation_advances_and_stays_finite",                                                                     │
+│       "fn:test_leapfrog_zero_force_constant_momentum",                                                                          │
+│       "fn:test_leapfrog_advances_time",                                                                                         │
+│       "fn:test_leapfrog_position_drift_direction",                                                                              │
+│       "fn:test_leapfrog_approximate_time_reversibility",                                                                        │
+│       "fn:test_single_pm_step_runs_and_advances",                                                                               │
+│       "fn:test_p3m_step_runs_and_advances"                                                                                      │
+│     ]                                                                                                                           │
+│   }                                                                                                                             │
+│ ]                                                                                                                               │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+✦ I'll now investigate the PoissonVlasov.momentumEquation and Zeldovich.state methods using graph_query to understand their internal
+  call structures. I'll also examine md_cic_nd and InterpND to see how they fit into the overall architecture.
+│                                                                                                                                 │
+│ ✓  Graph Query Queries the code graph for "PoissonVlasov.momentumEquation"                                                      │
+│                                                                                                                                 │
+│ No nodes found matching 'PoissonVlasov.momentumEquation'. Run graph_init first if you haven't already.                          │
+│                                                                                                                                 │
+│ ✓  Graph Query Queries the code graph for "Zeldovich.state"                                                                     │
+│                                                                                                                                 │
+│ [                                                                                                                               │
+│   {                                                                                                                             │
+│     "id": "fn:state",                                                                                                           │
+│     "type": "function",                                                                                                         │
+│     "name": "state",                                                                                                            │
+│     "file": "src/physics/initial_conds.py",                                                                                     │
+│     "line": 22,                                                                                                                 │
+│     "args": "self, a_init: float",                                                                                              │
+│     "class_id": "cls:Zeldovich",                                                                                                │
+│     "callChain": [                                                                                                              │
+│       {                                                                                                                         │
+│         "id": "fn:a2r",                                                                                                         │
+│         "name": "a2r",                                                                                                          │
+│         "file": "docs/nbody_refrance.py",                                                                                       │
+│         "line": 364,                                                                                                            │
+│         "depth": 1                                                                                                              │
+│       },                                                                                                                        │
+│       {                                                                                                                         │
+│         "id": "fn:_grid_to_particles",                                                                                          │
+│         "name": "_grid_to_particles",                                                                                           │
+│         "file": "src/physics/initial_conds.py",                                                                                 │
+│         "line": 6,                                                                                                              │
+│         "depth": 1                                                                                                              │
+│       }                                                                                                                         │
+│     ],                                                                                                                          │
+│     "callerChain": [                                                                                                            │
+│       {                                                                                                                         │
+│         "id": "fn:run_simulation",                                                                                              │
+│         "name": "run_simulation",                                                                                               │
+│         "file": "main.py",                                                                                                      │
+│         "line": 29,                                                                                                             │
+│         "depth": 1                                                                                                              │
+│       },                                                                                                                        │
+│       {                                                                                                                         │
+│         "id": "fn:plot_particles",                                                                                              │
+│         "name": "plot_particles",                                                                                               │
+│         "file": "src/utils/plotting.py",                                                                                        │
+│         "line": 70,                                                                                                             │
+│         "depth": 1                                                                                                              │
+│       },                                                                                                                        │
+│       {                                                                                                                         │
+│         "id": "fn:test_3d_pm_simulation_advances_and_stays_finite",                                                             │
+│         "name": "test_3d_pm_simulation_advances_and_stays_finite",                                                              │
+│         "file": "tests/test_core.py",                                                                                           │
+│         "line": 319,                                                                                                            │
+│         "depth": 1                                                                                                              │
+│       },                                                                                                                        │
+│       {                                                                                                                         │
+│         "id": "fn:test_zeldovich_3d_shape",                                                                                     │
+│         "name": "test_zeldovich_3d_shape",                                                                                      │
+│         "file": "tests/test_core.py",                                                                                           │
+│         "line": 108,                                                                                                            │
+│         "depth": 1                                                                                                              │
+│       },                                                                                                                        │
+│       {                                                                                                                         │
+│         "id": "fn:test_mean_density_unity",                                                                                     │
+│         "name": "test_mean_density_unity",                                                                                      │
+│         "file": "tests/test_physics.py",                                                                                        │
+│         "line": 401,                                                                                                            │
+│         "depth": 1                                                                                                              │
+│       },                                                                                                                        │
+│       {                                                                                                                         │
+│         "id": "fn:test_momentum_proportional_to_displacement_eds",                                                              │
+│         "name": "test_momentum_proportional_to_displacement_eds",                                                               │
+│         "file": "tests/test_physics.py",                                                                                        │
+│         "line": 441,                                                                                                            │
+│         "depth": 1                                                                                                              │
+│                                                                                                                                 │
+│ ✓  Graph Query Queries the code graph for "md_cic_nd"                                                                           │
+│                                                                                                                                 │
+│ [                                                                                                                               │
+│   {                                                                                                                             │
+│     "id": "fn:md_cic_nd",                                                                                                       │
+│     "type": "function",                                                                                                         │
+│     "name": "md_cic_nd",                                                                                                        │
+│     "file": "src/core/ops.py",                                                                                                  │
+│     "line": 9,                                                                                                                  │
+│     "args": "shape, pos",                                                                                                       │
+│     "class_id": null,                                                                                                           │
+│     "callChain": [],                                                                                                            │
+│     "callerChain": [                                                                                                            │
+│       {                                                                                                                         │
+│         "id": "fn:run_simulation",                                                                                              │
+│         "name": "run_simulation",                                                                                               │
+│         "file": "main.py",                                                                                                      │
+│         "line": 29,                                                                                                             │
+│         "depth": 1                                                                                                              │
+│       },                                                                                                                        │
+│       {                                                                                                                         │
+│         "id": "fn:momentumEquation",                                                                                            │
+│         "name": "momentumEquation",                                                                                             │
+│         "file": "src/solver/state.py",                                                                                          │
+│         "line": 23,                                                                                                             │
+│         "depth": 1                                                                                                              │
+│       },                                                                                                                        │
+│       {                                                                                                                         │
+│         "id": "fn:plot_density_evolution",                                                                                      │
+│         "name": "plot_density_evolution",                                                                                       │
+│         "file": "src/utils/plotting.py",                                                                                        │
+│         "line": 6,                                                                                                              │
+│         "depth": 1                                                                                                              │
+│       },                                                                                                                        │
+│       {                                                                                                                         │
+│         "id": "fn:test_md_cic_nd_mass_conservation_3d",                                                                         │
+│         "name": "test_md_cic_nd_mass_conservation_3d",                                                                          │
+│         "file": "tests/test_core.py",                                                                                           │
+│         "line": 79,                                                                                                             │
+│         "depth": 1                                                                                                              │
+│       },                                                                                                                        │
+│       {                                                                                                                         │
+│         "id": "fn:test_md_cic_nd_unit_deposit_3d",                                                                              │
+│         "name": "test_md_cic_nd_unit_deposit_3d",                                                                               │
+│         "file": "tests/test_core.py",                                                                                           │
+│         "line": 86,                                                                                                             │
+│         "depth": 1                                                                                                              │
+│       },                                                                                                                        │
+│       {                                                                                                                         │
+│         "id": "fn:test_zeldovich_3d_shape",                                                                                     │
+│         "name": "test_zeldovich_3d_shape",                                                                                      │
+│         "file": "tests/test_core.py",                                                                                           │
+│         "line": 108,                                                                                                            │
+│         "depth": 1                                                                                                              │
+│       },                                                                                                                        │
+│       {                                                                                                                         │
+│         "id": "fn:test_mean_density_unity",                                                                                     │
+│         "name": "test_mean_density_unity",                                                                                      │
+│         "file": "tests/test_physics.py",                                                                                        │
+│         "line": 401,                                                                                                            │
+│         "depth": 1                                                                                                              │
+│       },                                                                                                                        │
+│       {                                                                                                                         │
+│         "id": "fn:get_optimal_parameters",                                                                                      │
+│         "name": "get_optimal_parameters",                                                                                       │
+│         "file": "docs/nbody_refrance.py",                                                                                       │
+│         "line": 551,                                                                                                            │
+│         "depth": 2                                                                                                              │
+│       },                                                                                                                        │
+│                                                                                                                                 │
+│ ✓  Graph Query Queries the code graph for "InterpND"                                                                            │
+│                                                                                                                                 │
+│ [                                                                                                                               │
+│   {                                                                                                                             │
+│     "id": "cls:InterpND",                                                                                                       │
+│     "type": "class",                                                                                                            │
+│     "name": "InterpND",                                                                                                         │
+│     "file": "src/core/ops.py",                                                                                                  │
+│     "line": 44,                                                                                                                 │
+│     "args": null,                                                                                                               │
+│     "class_id": null,                                                                                                           │
+│     "callChain": [],                                                                                                            │
+│     "callerChain": [],                                                                                                          │
+│     "truncated": false                                                                                                          │
+│   },                                                                                                                            │
+│   {                                                                                                                             │
+│     "id": "fn:test_interpnd_3d_grid_points",                                                                                    │
+│     "type": "function",                                                                                                         │
+│     "name": "test_interpnd_3d_grid_points",                                                                                     │
+│     "file": "tests/test_core.py",                                                                                               │
+│     "line": 95,                                                                                                                 │
+│     "args": null,                                                                                                               │
+│     "class_id": null,                                                                                                           │
+│     "callChain": [],                                                                                                            │
+│     "callerChain": [],                                                                                                          │
+│     "truncated": false                                                                                                          │
+│   }                                                                                                                             │
+│ ]                                                                                                                               │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+✦ I'll search for momentumEquation directly since the previous graph_query failed. I'm also going to examine the PoissonVlasov class in
+  src/physics/system.py, the Zeldovich class in src/physics/initial_conds.py, and the leap_frog function in src/solver/integrator.py to
+  understand their imports and interactions.
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✓  Graph Search Searching code index for "momentumEquation"                                                                     │
+│                                                                                                                                 │
+│ [                                                                                                                               │
+│   {                                                                                                                             │
+│     "id": "fn:momentumEquation",                                                                                                │
+│     "type": "function",                                                                                                         │
+│     "name": "momentumEquation",                                                                                                 │
+│     "file": "src/solver/state.py",                                                                                              │
+│     "line": 23,                                                                                                                 │
+│     "args": "self, s: State",                                                                                                   │
+│     "class_id": "cls:HamiltonianSystem",                                                                                        │
+│     "calls": [                                                                                                                  │
+│       "fn:da",                                                                                                                  │
+│       "fn:md_cic_2d",                                                                                                           │
+│       "fn:abs",                                                                                                                 │
+│       "fn:gradient_2nd_order",                                                                                                  │
+│       "fn:md_cic_nd",                                                                                                           │
+│       "fn:_pm_force",                                                                                                           │
+│       "fn:_pp_force"                                                                                                            │
+│     ],                                                                                                                          │
+│     "calledBy": [                                                                                                               │
+│       "fn:kick",                                                                                                                │
+│       "fn:leap_frog",                                                                                                           │
+│       "fn:test_pm_uniform_force_is_zero",                                                                                       │
+│       "fn:test_p3m_close_pair_force_larger_than_pm",                                                                            │
+│       "fn:test_uniform_density_zero_force",                                                                                     │
+│       "fn:test_pm_force_newton_third_law",                                                                                      │
+│       "fn:test_pm_force_direction_attractive",                                                                                  │
+│       "fn:test_pm_plus_pp_closer_to_direct_newtonian"                                                                           │
+│     ]                                                                                                                           │
+│   }                                                                                                                             │
+│ ]                                                                                                                               │
+│                                                                                                                                 │
+│ ✓  ReadFile src/physics/system.py                                                                                               │
+│                                                                                                                                 │
+│                                                                                                                                 │
+│ ✓  ReadFile src/physics/initial_conds.py                                                                                        │
+│                                                                                                                                 │
+│                                                                                                                                 │
+│ ✓  ReadFile src/solver/integrator.py                                                                                            │
+│                                                                                                                                 │
+│ Read lines 1-50 of 146 from src/solver/integrator.py                                                                            │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+│                                                                                                                                 │
+│ ✓  ReadFile src/physics/system.py                                                                                               │
+│                                                                                                                                 │
+✦ I've gathered significant information and am ready to draft the dependency graph. src/core/ provides foundational operations,
+  src/physics/ handles domain logic, and src/solver/ manages numerical integration. I'll now examine the imports in src/utils/,
+  src/core/box.py, and src/core/ops.py to complete the picture.
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✓  ReadFile src/core/box.py                                                                                                     │
+│                                                                                                                                 │
+│ Read lines 1-20 of 26 from src/core/box.py                                                                                      │
+│                                                                                                                                 │
+│ ✓  ReadFile src/core/ops.py                                                                                                     │
+│                                                                                                                                 │
+│ Read lines 1-20 of 95 from src/core/ops.py                                                                                      │
+│                                                                                                                                 │
+│ ✓  ReadFile src/utils/analysis.py                                                                                               │
+│                                                                                                                                 │
+│ Read lines 1-20 of 175 from src/utils/analysis.py                                                                               │
+│                                                                                                                                 │
+│ ✓  ReadFile src/utils/config_parser.py                                                                                          │
+│                                                                                                                                 │
+│ Read lines 1-20 of 109 from src/utils/config_parser.py                                                                          │
+│                                                                                                                                 │
+│ ✓  ReadFile src/utils/io.py                                                                                                     │
+│                                                                                                                                 │
+│ Read lines 1-20 of 94 from src/utils/io.py                                                                                      │
+│                                                                                                                                 │
+│ ✓  ReadFile src/utils/plotting.py                                                                                               │
+│                                                                                                                                 │
+│ Read lines 1-20 of 117 from src/utils/plotting.py                                                                               │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+✦ I've identified most of the dependencies, but I need to confirm how main.py integrates them as the entry point. I'll also take a
+  closer look at src/utils/analysis.py, specifically checking beyond the first 20 lines for any imports from src/core or src/physics.
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✓  ReadFile src/utils/analysis.py                                                                                               │
+│                                                                                                                                 │
+│ Read lines 21-100 of 175 from src/utils/analysis.py                                                                             │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+✦ I've mapped out the dependencies across the Core, Physics, Solver, and Utils modules. Now, I'll confirm the imports in main.py to
+  ensure the dependency graph is complete.
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✓  ReadFile main.py                                                                                                             │
+│                                                                                                                                 │
+│ Read lines 1-50 of 211 from main.py                                                                                             │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+✦ I've gathered enough data to construct the dependency graph, but I need to double-check src/core/filters.py for any hidden
+  dependencies. I'll examine that file now before finalizing the Mermaid diagram.
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✓  ReadFile src/core/filters.py                                                                                                 │
+│                                                                                                                                 │
+│ Read lines 1-20 of 91 from src/core/filters.py                                                                                  │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+✦ Based on the code analysis using graph_search, graph_query, and direct file inspection, here is the dependency graph for the P3M_JAX
+  codebase.
+
+  Module Dependency Graph
+
+  The simulation is architected such that src/core and src/solver/state.py provide the foundational blocks, while src/physics and
+  src/solver/integrator.py build upon them to implement the simulation logic. main.py acts as the orchestrator, importing from nearly
+  all modules.
+
+    1 graph TD
+    2     %% Directories as subgraphs
+    3     subgraph Core ["src/core/ (Foundational Ops)"]
+    4         box[box.py]
+    5         ops[ops.py]
+    6         filters[filters.py]
+    7     end
+    8
+    9     subgraph Solver ["src/solver/ (Time Integration)"]
+   10         state[state.py]
+   11         integrator[integrator.py]
+   12     end
+   13
+   14     subgraph Physics ["src/physics/ (Domain Logic)"]
+   15         cosmo[cosmology.py]
+   16         system[system.py]
+   17         ic[initial_conds.py]
+   18     end
+   19
+   20     subgraph Utils ["src/utils/ (I/O & Analysis)"]
+   21         analysis[analysis.py]
+   22         config[config_parser.py]
+   23         io[io.py]
+   24         plotting[plotting.py]
+   25     end
+   26
+   27     main[main.py]
+   28
+   29     %% Internal Dependencies within src/
+   30     system --> state
+   31     system --> ops
+   32     system --> filters
+   33     ic --> state
+   34     ic --> ops
+   35     integrator --> state
+   36     plotting --> ops
+   37     
+   38     %% Entry Point Dependencies
+   39     main --> box
+   40     main --> filters
+   41     main --> ops
+   42     main --> cosmo
+   43     main --> system
+   44     main --> ic
+   45     main --> integrator
+   46     main --> state
+   47     main --> plotting
+   48     main --> config
+   49     main --> io
+   50     main --> analysis
+
+  Detailed Relationships
+
+
+  ┌───────────┬──────────────────┬───────────────┬──────────────────────────────┬──────────────────────────────────────────┐
+  │ Directory │ Module           │ Key Symbol    │ Primary Imports/Dependencies │ Imported By                              │
+  ├───────────┼──────────────────┼───────────────┼──────────────────────────────┼──────────────────────────────────────────┤
+  │ core      │ box.py           │ Box           │ (None)                       │ main.py                                  │
+  │           │ ops.py           │ md_cic_nd     │ (None)                       │ system.py, ic.py, plotting.py, main.py   │
+  │           │ filters.py       │ Potential     │ (None)                       │ system.py, main.py                       │
+  │ physics   │ cosmology.py     │ Cosmology     │ (None)                       │ main.py                                  │
+  │           │ system.py        │ PoissonVlasov │ state.py, ops.py, filters.py │ main.py                                  │
+  │           │ initial_conds.py │ Zeldovich     │ state.py, ops.py             │ main.py                                  │
+  │ solver    │ state.py         │ State, HS     │ (None)                       │ system.py, ic.py, integrator.py, main.py │
+  │           │ integrator.py    │ leap_frog     │ state.py                     │ main.py                                  │
+  │ utils     │ analysis.py      │ Pk            │ (None)                       │ main.py                                  │
+  │           │ config_parser.py │ load_config   │ (None)                       │ main.py                                  │
+  │           │ io.py            │ VTK           │ (None)                       │ main.py                                  │
+  │           │ plotting.py      │ Plotting      │ ops.py                       │ main.py                                  │
+  └───────────┴──────────────────┴───────────────┴──────────────────────────────┴──────────────────────────────────────────┘
+
+ > /stats tools
+╭────────────────────────────────────────────────────────────────────╮
+│                                                                    │
+│  Tool Stats For Nerds                                              │
+│                                                                    │
+│  Tool Name                   Calls   Success Rate   Avg Duration   │
+│  ────────────────────────────────────────────────────────────────  │
+│  list_directory                  4         100.0%           63ms   │
+│  graph_search                    8         100.0%           42ms   │
+│  graph_query                     4         100.0%           26ms   │
+│  read_file                      12         100.0%           58ms   │
+│                                                                    │
+│  User Decision Summary                                             │
+│  Total Reviewed Suggestions:                                  28   │
+│   » Accepted:                                                 28   │
+│   » Rejected:                                                  0   │
+│   » Modified:                                                  0   │
+│  ────────────────────────────────────────────────────────────────  │
+│   Overall Agreement Rate:                                 100.0%   │
+╰────────────────────────────────────────────────────────────────────╯
+ > /stats model
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                                     │
+│  Auto (Gemini 3) Stats For Nerds                                                                                                    │
+│                                                                                                                                     │
+│  Auth Method:                Signed in with Google (user@example.com)                                                        │
+│  Tier:                       Gemini Code Assist in Google One AI Pro                                                                │
+│                                                                                                                                     │
+│  Metric                      gemini-2.5-flash-lite                              gemini-3-flash-preview                              │
+│  ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────  │
+│  API                                                                                                                                │
+│  Requests                    1                                                  9                                                   │
+│  Errors                      0 (0.0%)                                           0 (0.0%)                                            │
+│  Avg Latency                 2.9s                                               10.5s                                               │
+│  Tokens                                                                                                                             │
+│  Total                       6,016                                              193,175                                             │
+│    ↳ Input                   638                                                81,326                                              │
+│    ↳ Cache Reads             4,927 (88.5%)                                      107,008 (56.8%)                                     │
+│    ↳ Thoughts                343                                                3,054                                               │
+│    ↳ Output                  108                                                1,787                                               │
+│  Roles                                                                                                                              │
+│  main                                                                                                                               │
+│    ↳ Requests                -                                                  9                                                   │
+│    ↳ Input                   -                                                  81,326                                              │
+│    ↳ Output                  -                                                  1,787                                               │
+│    ↳ Cache Reads             -                                                  107,008                                             │
+│  utility_router                                                                                                                     │
+│    ↳ Requests                1                                                  -                                                   │
+│    ↳ Input                   638                                                -                                                   │
+│    ↳ Output                  108                                                -                                                   │
+│    ↳ Cache Reads             4,927                                              -                                                   │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+ > /stats session
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                                     │
+│  Session Stats                                                                                                                      │
+│                                                                                                                                     │
+│  Interaction Summary                                                                                                                │
+│  Session ID:                 9c650387-eab3-40a7-b33e-590324fa39cf                                                                   │
+│  Auth Method:                Signed in with Google (user@example.com)                                                        │
+│  Tier:                       Gemini Code Assist in Google One AI Pro                                                                │
+│  Tool Calls:                 28 ( ✓ 28 x 0 )                                                                                        │
+│  Success Rate:               100.0%                                                                                                 │
+│  User Agreement:             100.0% (28 reviewed)                                                                                   │
+│                                                                                                                                     │
+│  Performance                                                                                                                        │
+│  Wall Time:                  1m 59s                                                                                                 │
+│  Agent Active:               1m 38s                                                                                                 │
+│    » API Time:               1m 37s (98.6%)                                                                                         │
+│    » Tool Time:              1.4s (1.4%)                                                                                            │
+│                                                                                                                                     │
+│  Model                   Reqs    Model usage                 Usage resets                                                           │
+│  ────────────────────────────────────────────────────────────────────────────────                                                   │
+│  gemini-2.5-flash-lite      1    ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬    4%  10:35 AM (20h 44m)                                                     │
+│  gemini-3-flash-preview     9    ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬   21%  10:35 AM (20h 44m)                                                     │
+│  gemini-2.5-flash           -    ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬   21%  10:35 AM (20h 44m)                                                     │
+│  gemini-2.5-pro             -    ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬    0%  12:57 PM (23h 6m)                                                      │
+│  gemini-3.1-flash-lite-…    -    ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬    4%  10:35 AM (20h 44m)                                                     │
+│  gemini-3.1-pro-preview     -    ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬    0%  12:57 PM (23h 6m)                                                      │
+│                                                                                                                                     │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                       ? for shortcuts 
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ Shift+Tab to accept edits                                                                                            1 GEMINI.md file
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ >   Type your message or @path/to/file
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ workspace (/directory)                             branch                          sandbox                                     /model
+ /workspace/P3M_JAX                         main                            no sandbox                         Auto (Gemini 3)
+

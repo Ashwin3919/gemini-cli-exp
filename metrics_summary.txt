@@ -1,0 +1,16 @@
+Metrics Summary Report
+
+| Metric | Version | Simple | Modrate | Complex | Tricky Task |
+|--------|---------|--------|---------|---------|-------------|
+| Tokens | CLI (a1)| 69,997 | 297,610 | 312,525 | 765,210     |
+|        | EXP (a2)| 92,984 | 150,158 | 195,794 | 443,550     |
+| Reqs   | CLI (a1)| 5      | 15      | 18      | 42          |
+|        | EXP (a2)| 6      | 8       | 9       | 24          |
+| Wall(s)| CLI (a1)| 99     | 103     | 181     | 354         |
+|        | EXP (a2)| 101    | 77      | 98      | 258         |
+| Cache% | CLI (a1)| 32.2%  | 78.3%   | 66.7%   | 73.0%       |
+|        | EXP (a2)| 52.0%  | 77.7%   | 57.2%   | 69.1%       |
+| Calls  | CLI (a1)| 4      | 14      | 17      | 39          |
+|        | EXP (a2)| 4 (G2+O2)| 9 (G7+O2)| 16 (G12+O4)| 27 (G21+O6) |
+
+*Calls for EXP (a2) are calculated as graph_calls + other_calls.

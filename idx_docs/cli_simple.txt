@@ -1,0 +1,178 @@
+
+  ▝▜▄    Gemini CLI v0.34.0
+    ▝▜▄
+    ▗▟▀  Signed in with Google: user@example.com /auth
+  ▗▟▀    Plan: Gemini Code Assist in Google One AI Pro /upgrade
+
+╭───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ We're making changes to Gemini CLI that may impact your workflow.                                                                 │
+│ What's Changing: We are adding more robust detection of policy-violating use cases and changing how we prioritize traffic.        │
+│ How it affects you: This may result in higher capacity-related errors during periods of high traffic.                             │
+│ Read more: https://goo.gle/geminicli-updates                                                                                      │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+ > Starting from momentumEquation in PoissonVlasov, trace every function it calls — directly and transitively — down to leaf
+   functions. Output the complete call tree.
+✦ I will begin by reading src/physics/system.py to locate the PoissonVlasov.momentumEquation method and identify its immediate
+  function calls.
+
+╭───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✓  ReadFile src/physics/system.py                                                                                             │
+│                                                                                                                               │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+✦ I will now examine src/physics/cosmology.py and src/core/ops.py to trace the functions called by momentumEquation, including da,
+  md_cic_nd, InterpND, and gradient_2nd_order.
+
+╭───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✓  ReadFile src/physics/cosmology.py                                                                                          │
+│                                                                                                                               │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+✦ I will read src/core/ops.py to trace the implementations of md_cic_nd, InterpND, and gradient_2nd_order.
+
+╭───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✓  ReadFile src/core/ops.py                                                                                                   │
+│                                                                                                                               │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+✦ I will now examine src/core/filters.py to trace the Potential class, ensuring I've captured all functions called by
+  momentumEquation.
+
+╭───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✓  ReadFile src/core/filters.py                                                                                               │
+│                                                                                                                               │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+✦ Based on my trace of src/physics/system.py, src/physics/cosmology.py, and src/core/ops.py, here is the complete call tree for
+  PoissonVlasov.momentumEquation.
+
+  Call Tree: PoissonVlasov.momentumEquation
+
+   * momentumEquation(s) (src/physics/system.py)
+       * cosmology.da(a) (src/physics/cosmology.py)
+           * jnp.sqrt (Leaf)
+           * cosmology.OmegaK (Property, src/physics/cosmology.py)
+       * md_cic_nd(shape, pos) (src/core/ops.py)
+           * jnp.floor (Leaf)
+           * astype (Leaf)
+           * jnp.array (Leaf)
+           * jnp.zeros (Leaf)
+           * math.prod (Leaf)
+           * itertools.product (Leaf)
+           * jnp.prod (Leaf)
+           * jnp.where (Leaf)
+           * sum (Leaf)
+           * reshape (Leaf)
+       * jnp.fft.fftn (Leaf)
+       * jnp.fft.ifftn (Leaf)
+       * cosmology.G (Property, src/physics/cosmology.py)
+       * _pm_force(x_grid, phi, da) (src/physics/system.py)
+           * gradient_2nd_order(phi, i) (src/core/ops.py)
+               * jnp.roll (Leaf)
+           * InterpND.__call__(pos) (src/core/ops.py)
+               * jnp.floor (Leaf)
+               * astype (Leaf)
+               * jnp.zeros (Leaf)
+               * itertools.product (Leaf)
+               * jnp.prod (Leaf)
+               * jnp.where (Leaf)
+               * jnp.array (Leaf)
+       * _pp_force(pos, a, da) (src/physics/system.py) [Conditional: if solver == "p3m"]
+           * _morton_encode(x_grid) (src/physics/system.py)
+               * jnp.floor (Leaf)
+               * astype (Leaf)
+               * clip (Leaf)
+               * jnp.zeros (Leaf)
+           * jnp.argsort (Leaf)
+           * jax.vmap (JAX Transformation)
+               * force_on_i(i) (Closure, src/physics/system.py)
+                   * jnp.arange (Leaf)
+                   * jnp.clip (Leaf)
+                   * jnp.round (Leaf)
+                   * jnp.sum (Leaf)
+                   * jnp.sqrt (Leaf)
+                   * jax.scipy.special.erfc (Leaf)
+                   * cosmology.G (Property, src/physics/cosmology.py)
+ > /stats session
+╭───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                                   │
+│  Session Stats                                                                                                                    │
+│                                                                                                                                   │
+│  Interaction Summary                                                                                                              │
+│  Session ID:                 bb400946-2d47-44bb-9980-3d6bf0b871cb                                                                 │
+│  Auth Method:                Signed in with Google (user@example.com)                                                      │
+│  Tier:                       Gemini Code Assist in Google One AI Pro                                                              │
+│  Tool Calls:                 4 ( ✓ 4 x 0 )                                                                                        │
+│  Success Rate:               100.0%                                                                                               │
+│  User Agreement:             100.0% (4 reviewed)                                                                                  │
+│                                                                                                                                   │
+│  Performance                                                                                                                      │
+│  Wall Time:                  3m 25s                                                                                               │
+│  Agent Active:               1m 39s                                                                                               │
+│    » API Time:               1m 39s (99.9%)                                                                                       │
+│    » Tool Time:              88ms (0.1%)                                                                                          │
+│                                                                                                                                   │
+│  Model                   Reqs    Model usage                 Usage resets                                                         │
+│  ────────────────────────────────────────────────────────────────────────────────                                                 │
+│  gemini-2.5-flash-lite      1    ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬    1%  10:35 AM (21h 48m)                                                   │
+│  gemini-3-flash-preview     5    ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬   11%  10:35 AM (21h 48m)                                                   │
+│  gemini-2.5-flash           -    ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬   11%  10:35 AM (21h 48m)                                                   │
+│  gemini-2.5-pro             -    ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬    0%  12:48 PM (24h)                                                       │
+│  gemini-3.1-flash-lite-…    -    ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬    1%  10:35 AM (21h 48m)                                                   │
+│  gemini-3.1-pro-preview     -    ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬    0%  12:48 PM (24h)                                                       │
+│                                                                                                                                   │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+ > /stats tools
+╭────────────────────────────────────────────────────────────────────╮
+│                                                                    │
+│  Tool Stats For Nerds                                              │
+│                                                                    │
+│  Tool Name                   Calls   Success Rate   Avg Duration   │
+│  ────────────────────────────────────────────────────────────────  │
+│  read_file                       4         100.0%           22ms   │
+│                                                                    │
+│  User Decision Summary                                             │
+│  Total Reviewed Suggestions:                                   4   │
+│   » Accepted:                                                  4   │
+│   » Rejected:                                                  0   │
+│   » Modified:                                                  0   │
+│  ────────────────────────────────────────────────────────────────  │
+│   Overall Agreement Rate:                                 100.0%   │
+╰────────────────────────────────────────────────────────────────────╯
+ > /stats model
+╭───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                                   │
+│  Auto (Gemini 3) Stats For Nerds                                                                                                  │
+│                                                                                                                                   │
+│  Auth Method:                Signed in with Google (user@example.com)                                                      │
+│  Tier:                       Gemini Code Assist in Google One AI Pro                                                              │
+│                                                                                                                                   │
+│  Metric                      gemini-2.5-flash-lite                             gemini-3-flash-preview                             │
+│  ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────  │
+│  API                                                                                                                              │
+│  Requests                    1                                                 5                                                  │
+│  Errors                      0 (0.0%)                                          0 (0.0%)                                           │
+│  Avg Latency                 3.3s                                              19.3s                                              │
+│  Tokens                                                                                                                           │
+│  Total                       1,826                                             71,799                                             │
+│    ↳ Input                   1,383                                             44,902                                             │
+│    ↳ Cache Reads             0 (0.0%)                                          22,548 (33.4%)                                     │
+│    ↳ Thoughts                337                                               3,291                                              │
+│    ↳ Output                  106                                               1,058                                              │
+│  Roles                                                                                                                            │
+│  main                                                                                                                             │
+│    ↳ Requests                -                                                 5                                                  │
+│    ↳ Input                   -                                                 44,902                                             │
+│    ↳ Output                  -                                                 1,058                                              │
+│    ↳ Cache Reads             -                                                 22,548                                             │
+│  utility_router                                                                                                                   │
+│    ↳ Requests                1                                                 -                                                  │
+│    ↳ Input                   1,383                                             -                                                  │
+│    ↳ Output                  106                                               -                                                  │
+│    ↳ Cache Reads             0                                                 -                                                  │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                     ? for shortcuts 
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ Shift+Tab to accept edits                                                                                          1 GEMINI.md file
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ >   Type your message or @path/to/file
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ workspace (/directory)                                branch                       sandbox                                   /model
+ /workspace/P3M_JAX copy                       main                         no sandbox                       Auto (Gemini 3)
+

@@ -1,0 +1,481 @@
+
+
+               ████       ██████  ███████ ███    ███ ██ ███    ██ ██      ██████ ██      ██      ███████ ██   ██ ██████
+                ████     ██       ██      ████  ████ ██ ████   ██ ██     ██      ██      ██      ██       ██ ██  ██   ██
+                 ████    ██   ███ █████   ██ ████ ██ ██ ██ ██  ██ ██     ██      ██      ██      █████     ███   ██████
+                ████     ██    ██ ██      ██  ██  ██ ██ ██  ██ ██ ██     ██      ██      ██      ██       ██ ██  ██
+               ████       ██████  ███████ ██      ██ ██ ██   ████ ██      ██████ ███████ ██      ███████ ██   ██ ██      
+
+                                              Gemini Experimental CLI v0.36.0-experimental
+                                         Signed in with Google: user@example.com /auth
+                                         Plan: Gemini Code Assist in Google One AI Pro /upgrade
+
+                                            v0.36.0-experimental < ## beta experimental ## >
+
+
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ We're making changes to Gemini CLI that may impact your workflow.                                                                   │
+│ What's Changing: We are adding more robust detection of policy-violating use cases and changing how we prioritize traffic.          │
+│ How it affects you: This may result in higher capacity-related errors during periods of high traffic.                               │
+│ Read more: https://goo.gle/geminicli-updates                                                                                        │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+ > Which functions in this codebase call md_cic_nd? For each call site, give me the file path, line number, and the name of the
+   calling function. avoid shell commands and user queereis.
+✦ I will use the code graph to identify all functions that call md_cic_nd across the project.
+
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✓  Graph Query Queries the code graph for "md_cic_nd"                                                                           │
+│                                                                                                                                 │
+│ [                                                                                                                               │
+│   {                                                                                                                             │
+│     "id": "fn:md_cic_nd",                                                                                                       │
+│     "type": "function",                                                                                                         │
+│     "name": "md_cic_nd",                                                                                                        │
+│     "file": "src/core/ops.py",                                                                                                  │
+│     "line": 9,                                                                                                                  │
+│     "args": "shape, pos",                                                                                                       │
+│     "calls": [                                                                                                                  │
+│       "fn:time",                                                                                                                │
+│       "fn:or",                                                                                                                  │
+│       "fn:array",                                                                                                               │
+│       "fn:floor",                                                                                                               │
+│       "fn:astype",                                                                                                              │
+│       "fn:math_prod",                                                                                                           │
+│       "fn:zeros",                                                                                                               │
+│       "fn:product",                                                                                                             │
+│       "fn:prod",                                                                                                                │
+│       "fn:where",                                                                                                               │
+│       "fn:sum",                                                                                                                 │
+│       "fn:add",                                                                                                                 │
+│       "fn:reshape",                                                                                                             │
+│       "fn:trilinear"                                                                                                            │
+│     ],                                                                                                                          │
+│     "calledBy": [                                                                                                               │
+│       "fn:run_simulation",                                                                                                      │
+│       "fn:momentumEquation",                                                                                                    │
+│       "fn:plot_density_evolution",                                                                                              │
+│       "fn:test_md_cic_nd_mass_conservation_3d",                                                                                 │
+│       "fn:test_md_cic_nd_unit_deposit_3d",                                                                                      │
+│       "fn:test_zeldovich_3d_shape",                                                                                             │
+│       "fn:test_mean_density_unity"                                                                                              │
+│     ]                                                                                                                           │
+│   },                                                                                                                            │
+│   {                                                                                                                             │
+│     "id": "fn:test_md_cic_nd_mass_conservation_3d",                                                                             │
+│     "type": "function",                                                                                                         │
+│     "name": "test_md_cic_nd_mass_conservation_3d",                                                                              │
+│     "file": "tests/test_core.py",                                                                                               │
+│     "line": 79,                                                                                                                 │
+│     "args": null,                                                                                                               │
+│     "calls": [                                                                                                                  │
+│       "fn:array",                                                                                                               │
+│       "fn:md_cic_nd",                                                                                                           │
+│       "fn:allclose",                                                                                                            │
+│       "fn:sum"                                                                                                                  │
+│     ],                                                                                                                          │
+│     "calledBy": []                                                                                                              │
+│   },                                                                                                                            │
+│   {                                                                                                                             │
+│     "id": "fn:test_md_cic_nd_unit_deposit_3d",                                                                                  │
+│     "type": "function",                                                                                                         │
+│     "name": "test_md_cic_nd_unit_deposit_3d",                                                                                   │
+│     "file": "tests/test_core.py",                                                                                               │
+│     "line": 86,                                                                                                                 │
+│     "args": null,                                                                                                               │
+│     "calls": [                                                                                                                  │
+│       "fn:array",                                                                                                               │
+│       "fn:md_cic_nd",                                                                                                           │
+│       "fn:allclose",                                                                                                            │
+│       "fn:sum"                                                                                                                  │
+│     ],                                                                                                                          │
+│     "calledBy": []                                                                                                              │
+│   }                                                                                                                             │
+│ ]                                                                                                                               │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+✦ I will now locate the exact file paths and line numbers for the remaining functions that call md_cic_nd.
+
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✓  Graph Search Searching code index for "run_simulation"                                                                       │
+│                                                                                                                                 │
+│ [                                                                                                                               │
+│   {                                                                                                                             │
+│     "id": "fn:run_simulation",                                                                                                  │
+│     "type": "function",                                                                                                         │
+│     "name": "run_simulation",                                                                                                   │
+│     "file": "main.py",                                                                                                          │
+│     "line": 29,                                                                                                                 │
+│     "args": "config_path",                                                                                                      │
+│     "calls": [                                                                                                                  │
+│       "fn:load_config",                                                                                                         │
+│       "fn:get_results_dir",                                                                                                     │
+│       "fn:get",                                                                                                                 │
+│       "fn:ValueError",                                                                                                          │
+│       "fn:update",                                                                                                              │
+│       "fn:Cosmology",                                                                                                           │
+│       "fn:Box",                                                                                                                 │
+│       "fn:Power_law",                                                                                                           │
+│       "fn:Scale",                                                                                                               │
+│       "fn:Cutoff",                                                                                                              │
+│       "fn:garfield",                                                                                                            │
+│       "fn:Potential",                                                                                                           │
+│       "fn:astype",                                                                                                              │
+│       "fn:Zeldovich",                                                                                                           │
+│       "fn:state",                                                                                                               │
+│       "fn:_replace",                                                                                                            │
+│       "fn:system",                                                                                                              │
+│       "fn:PoissonVlasov",                                                                                                       │
+│       "fn:upper",                                                                                                               │
+│       "fn:integrator",                                                                                                          │
+│       "fn:jit",                                                                                                                 │
+│       "fn:partial",                                                                                                             │
+│       "fn:round",                                                                                                               │
+│       "fn:truncation",                                                                                                          │
+│       "fn:join",                                                                                                                │
+│       "fn:time",                                                                                                                │
+│       "fn:chunk_fn",                                                                                                            │
+│       "fn:block_until_ready",                                                                                                   │
+│       "fn:array",                                                                                                               │
+│       "fn:all",                                                                                                                 │
+│       "fn:isfinite",                                                                                                            │
+│       "fn:RuntimeError",                                                                                                        │
+│       "fn:append",                                                                                                              │
+│       "fn:md_cic_nd",                                                                                                           │
+│       "fn:write_vtk_particles",                                                                                                 │
+│       "fn:write_vtk_density",                                                                                                   │
+│       "fn:compute_power_spectrum",                                                                                              │
+│       "fn:append_to_csv",                                                                                                       │
+│       "fn:compute_dt",                                                                                                          │
+│       "fn:RAM",                                                                                                                 │
+│       "fn:stack",                                                                                                               │
+│       "fn:_save_ps_plot",                                                                                                       │
+│       "fn:State",                                                                                                               │
+│       "fn:plot_density_evolution",                                                                                              │
+│                                                                                                                                 │
+│ ✓  Graph Search Searching code index for "momentumEquation"                                                                     │
+│                                                                                                                                 │
+│ [                                                                                                                               │
+│   {                                                                                                                             │
+│     "id": "fn:momentumEquation",                                                                                                │
+│     "type": "function",                                                                                                         │
+│     "name": "momentumEquation",                                                                                                 │
+│     "file": "src/solver/state.py",                                                                                              │
+│     "line": 23,                                                                                                                 │
+│     "args": "self, s: State",                                                                                                   │
+│     "calls": [                                                                                                                  │
+│       "fn:da",                                                                                                                  │
+│       "fn:fill",                                                                                                                │
+│       "fn:md_cic_2d",                                                                                                           │
+│       "fn:abs",                                                                                                                 │
+│       "fn:mean",                                                                                                                │
+│       "fn:clear",                                                                                                               │
+│       "fn:imshow",                                                                                                              │
+│       "fn:log10",                                                                                                               │
+│       "fn:maximum",                                                                                                             │
+│       "fn:set_title",                                                                                                           │
+│       "fn:Field",                                                                                                               │
+│       "fn:fftn",                                                                                                                │
+│       "fn:Potential",                                                                                                           │
+│       "fn:ifftn",                                                                                                               │
+│       "fn:Interp2D",                                                                                                            │
+│       "fn:gradient_2nd_order",                                                                                                  │
+│       "fn:acc_x",                                                                                                               │
+│       "fn:acc_y",                                                                                                               │
+│       "fn:md_cic_nd",                                                                                                           │
+│       "fn:_pm_force",                                                                                                           │
+│       "fn:_pp_force"                                                                                                            │
+│     ],                                                                                                                          │
+│     "calledBy": [                                                                                                               │
+│       "fn:kick",                                                                                                                │
+│       "fn:leap_frog",                                                                                                           │
+│       "fn:test_pm_uniform_force_is_zero",                                                                                       │
+│       "fn:test_p3m_close_pair_force_larger_than_pm",                                                                            │
+│       "fn:test_uniform_density_zero_force",                                                                                     │
+│       "fn:test_pm_force_newton_third_law",                                                                                      │
+│       "fn:test_pm_force_direction_attractive",                                                                                  │
+│       "fn:test_pm_plus_pp_closer_to_direct_newtonian"                                                                           │
+│     ]                                                                                                                           │
+│   }                                                                                                                             │
+│ ]                                                                                                                               │
+│                                                                                                                                 │
+│ ✓  Graph Search Searching code index for "plot_density_evolution"                                                               │
+│                                                                                                                                 │
+│ [                                                                                                                               │
+│   {                                                                                                                             │
+│     "id": "fn:plot_density_evolution",                                                                                          │
+│     "type": "function",                                                                                                         │
+│     "name": "plot_density_evolution",                                                                                           │
+│     "file": "src/utils/plotting.py",                                                                                            │
+│     "line": 6,                                                                                                                  │
+│     "args": "all_states, box, times=None, save_path=None",                                                                      │
+│     "calls": [                                                                                                                  │
+│       "fn:use",                                                                                                                 │
+│       "fn:subplots",                                                                                                            │
+│       "fn:reshape",                                                                                                             │
+│       "fn:min",                                                                                                                 │
+│       "fn:abs",                                                                                                                 │
+│       "fn:append",                                                                                                              │
+│       "fn:enumerate",                                                                                                           │
+│       "fn:zeros",                                                                                                               │
+│       "fn:md_cic_2d",                                                                                                           │
+│       "fn:log10",                                                                                                               │
+│       "fn:maximum",                                                                                                             │
+│       "fn:imshow",                                                                                                              │
+│       "fn:set_title",                                                                                                           │
+│       "fn:set_xlabel",                                                                                                          │
+│       "fn:set_ylabel",                                                                                                          │
+│       "fn:colorbar",                                                                                                            │
+│       "fn:suptitle",                                                                                                            │
+│       "fn:tight_layout",                                                                                                        │
+│       "fn:projection",                                                                                                          │
+│       "fn:asarray",                                                                                                             │
+│       "fn:context",                                                                                                             │
+│       "fn:argmin",                                                                                                              │
+│       "fn:array",                                                                                                               │
+│       "fn:md_cic_nd",                                                                                                           │
+│       "fn:mean",                                                                                                                │
+│       "fn:percentile",                                                                                                          │
+│       "fn:savefig",                                                                                                             │
+│       "fn:close"                                                                                                                │
+│     ],                                                                                                                          │
+│     "calledBy": [                                                                                                               │
+│       "fn:get_optimal_parameters",                                                                                              │
+│       "fn:run_simulation"                                                                                                       │
+│     ]                                                                                                                           │
+│   }                                                                                                                             │
+│ ]                                                                                                                               │
+│                                                                                                                                 │
+│ ✓  Graph Search Searching code index for "test_zeldovich_3d_shape"                                                              │
+│                                                                                                                                 │
+│ [                                                                                                                               │
+│   {                                                                                                                             │
+│     "id": "fn:test_zeldovich_3d_shape",                                                                                         │
+│     "type": "function",                                                                                                         │
+│     "name": "test_zeldovich_3d_shape",                                                                                          │
+│     "file": "tests/test_core.py",                                                                                               │
+│     "line": 108,                                                                                                                │
+│     "args": null,                                                                                                               │
+│     "calls": [                                                                                                                  │
+│       "fn:Power_law",                                                                                                           │
+│       "fn:Scale",                                                                                                               │
+│       "fn:Cutoff",                                                                                                              │
+│       "fn:Potential",                                                                                                           │
+│       "fn:garfield",                                                                                                            │
+│       "fn:md_cic_nd",                                                                                                           │
+│       "fn:EDS_PRESET",                                                                                                          │
+│       "fn:Zeldovich",                                                                                                           │
+│       "fn:Box",                                                                                                                 │
+│       "fn:state",                                                                                                               │
+│       "fn:allclose",                                                                                                            │
+│       "fn:mean"                                                                                                                 │
+│     ],                                                                                                                          │
+│     "calledBy": []                                                                                                              │
+│   }                                                                                                                             │
+│ ]                                                                                                                               │
+│                                                                                                                                 │
+│ ✓  Graph Search Searching code index for "test_mean_density_unity"                                                              │
+│                                                                                                                                 │
+│ [                                                                                                                               │
+│   {                                                                                                                             │
+│     "id": "fn:test_mean_density_unity",                                                                                         │
+│     "type": "function",                                                                                                         │
+│     "name": "test_mean_density_unity",                                                                                          │
+│     "file": "tests/test_physics.py",                                                                                            │
+│     "line": 401,                                                                                                                │
+│     "args": "self, za_2d",                                                                                                      │
+│     "calls": [                                                                                                                  │
+│       "fn:state",                                                                                                               │
+│       "fn:md_cic_nd",                                                                                                           │
+│       "fn:abs",                                                                                                                 │
+│       "fn:mean"                                                                                                                 │
+│     ],                                                                                                                          │
+│     "calledBy": []                                                                                                              │
+│   }                                                                                                                             │
+│ ]                                                                                                                               │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+✦ I'll now find the exact line numbers where md_cic_nd is called within each function.
+
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✓  ReadFile main.py                                                                                                             │
+│                                                                                                                                 │
+│ Read lines 29-150 of 211 from main.py                                                                                           │
+│                                                                                                                                 │
+│ ✓  ReadFile src/solver/state.py                                                                                                 │
+│                                                                                                                                 │
+│ Read lines 23-24 of 24 from src/solver/state.py                                                                                 │
+│                                                                                                                                 │
+│ ✓  ReadFile src/utils/plotting.py                                                                                               │
+│                                                                                                                                 │
+│ Read lines 6-100 of 117 from src/utils/plotting.py                                                                              │
+│                                                                                                                                 │
+│ ✓  ReadFile tests/test_core.py                                                                                                  │
+│                                                                                                                                 │
+│ Read lines 70-120 of 345 from tests/test_core.py                                                                                │
+│                                                                                                                                 │
+│ ✓  ReadFile tests/test_physics.py                                                                                               │
+│                                                                                                                                 │
+│ Read lines 390-410 of 616 from tests/test_physics.py                                                                            │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+✦ I'll now find the momentumEquation implementation in src/physics/system.py and get the remaining call sites in tests/test_core.py.
+
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✓  Graph Search Searching code index for "PoissonVlasov.momentumEquation"                                                       │
+│                                                                                                                                 │
+│ No symbols found matching 'PoissonVlasov.momentumEquation'. REQUIRED: try graph_search again with a shorter keyword BEFORE      │
+│ using grep_search.                                                                                                              │
+│ - If keyword contains dots (module path), strip the prefix — e.g. 'torch.compiler.set_stance' → try 'set_stance'                │
+│ - If keyword is long snake_case, try the last 1-2 parts — e.g. 'get_and_maybe_log_recompilation_reasons' → try                  │
+│ 'recompilation_reasons'                                                                                                         │
+│ Only fall back to grep_search after 2+ shorter graph_search attempts all return 0 results. (Run graph_init first if this        │
+│ project has not been indexed yet.)                                                                                              │
+│                                                                                                                                 │
+│ ✓  ReadFile tests/test_core.py                                                                                                  │
+│                                                                                                                                 │
+│ Read lines 108-160 of 345 from tests/test_core.py                                                                               │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+✦ I will now check src/physics/system.py to find the PoissonVlasov.momentumEquation implementation and confirm any md_cic_nd calls.
+
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✓  ReadFile src/physics/system.py                                                                                               │
+│                                                                                                                                 │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+✦ I'll now use grep_search to confirm the exact line numbers for all md_cic_nd call sites.
+
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✓  Shell grep -n "md_cic_nd" main.py src/physics/system.py src/utils/plotting.py tests/test_core.py tests/test_physics.py [cur… │
+│                                                                                                                                 │
+│ ... first 4 lines hidden (Ctrl+O to show) ...                                                                                   │
+│ src/utils/plotting.py:3:from src.core.ops import md_cic_nd                                                                      │
+│ src/utils/plotting.py:34:            rho = np.array(md_cic_nd(box.shape, x_grid)) + 1.0                                         │
+│ tests/test_core.py:7:from src.core.ops import md_cic_2d, Interp2D, md_cic_nd, InterpND, gradient_2nd_order                      │
+│ tests/test_core.py:79:def test_md_cic_nd_mass_conservation_3d():                                                                │
+│ tests/test_core.py:82:    rho = md_cic_nd(shape, pos)                                                                           │
+│ tests/test_core.py:86:def test_md_cic_nd_unit_deposit_3d():                                                                     │
+│ tests/test_core.py:90:    rho = md_cic_nd(shape, pos)                                                                           │
+│ tests/test_core.py:110:    from src.core.ops import garfield, md_cic_nd                                                         │
+│ tests/test_core.py:124:    rho = md_cic_nd(bm.shape, s.position / bm.res)                                                       │
+│ tests/test_physics.py:15:from src.core.ops import md_cic_nd, garfield, gradient_2nd_order                                       │
+│ tests/test_physics.py:405:        rho = md_cic_nd(bm.shape, s.position / bm.res)                                                │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+✦ I'll now read src/physics/system.py with line numbers to confirm the exact call site.
+
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✓  Shell cat -n src/physics/system.py | grep -C 5 "md_cic_nd" [current working directory /workspace/… │
+│                                                                                                                                 │
+│ ... first 11 lines hidden (Ctrl+O to show) ...                                                                                  │
+│    113      def momentumEquation(self, s: State[jnp.ndarray]) -> jnp.ndarray:                                                   │
+│    114          a  = s.time                                                                                                     │
+│    115          da = self.cosmology.da(a)                                                                                       │
+│    116          x_grid = s.position / self.box.res                                                                              │
+│    117                                                                                                                          │
+│    118          delta = md_cic_nd(self.box.shape, x_grid) * self.particle_mass - 1.0                                            │
+│    119          phi   = jnp.fft.ifftn(jnp.fft.fftn(delta) * self.kernel).real * self.cosmology.G / a                            │
+│    120                                                                                                                          │
+│    121          pm_acc = self._pm_force(x_grid, phi, da)                                                                        │
+│    122                                                                                                                          │
+│    123          # Python-level branch: resolved at trace time, zero runtime cost                                                │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+✦ The function md_cic_nd is called at the following locations in the codebase:
+
+
+  ┌───────────────────────┬─────────────┬─────────────────────────────────────┐
+  │ File Path             │ Line Number │ Calling Function                    │
+  ├───────────────────────┼─────────────┼─────────────────────────────────────┤
+  │ main.py               │ 146         │ run_simulation                      │
+  │ src/physics/system.py │ 118         │ momentumEquation                    │
+  │ src/utils/plotting.py │ 34          │ plot_density_evolution              │
+  │ tests/test_core.py    │ 82          │ test_md_cic_nd_mass_conservation_3d │
+  │ tests/test_core.py    │ 90          │ test_md_cic_nd_unit_deposit_3d      │
+  │ tests/test_core.py    │ 124         │ test_zeldovich_3d_shape             │
+  │ tests/test_physics.py │ 405         │ test_mean_density_unity             │
+  └───────────────────────┴─────────────┴─────────────────────────────────────┘
+
+ > /stats session
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                                     │
+│  Session Stats                                                                                                                      │
+│                                                                                                                                     │
+│  Interaction Summary                                                                                                                │
+│  Session ID:                 9549fb54-9de9-41d2-a670-de574cd26e36                                                                   │
+│  Auth Method:                Signed in with Google (user@example.com)                                                        │
+│  Tier:                       Gemini Code Assist in Google One AI Pro                                                                │
+│  Tool Calls:                 16 ( ✓ 16 x 0 )                                                                                        │
+│  Success Rate:               100.0%                                                                                                 │
+│  User Agreement:             100.0% (16 reviewed)                                                                                   │
+│                                                                                                                                     │
+│  Performance                                                                                                                        │
+│  Wall Time:                  1m 55s                                                                                                 │
+│  Agent Active:               1m 17s                                                                                                 │
+│    » API Time:               1m 10s (91.1%)                                                                                         │
+│    » Tool Time:              6.9s (8.9%)                                                                                            │
+│                                                                                                                                     │
+│  Model                   Reqs    Model usage                 Usage resets                                                           │
+│  ────────────────────────────────────────────────────────────────────────────────                                                   │
+│  gemini-2.5-flash-lite      1    ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬    1%  10:35 AM (22h 55m)                                                     │
+│  gemini-3-flash-preview     8    ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬   10%  10:35 AM (22h 55m)                                                     │
+│  gemini-2.5-flash           -    ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬   10%  10:35 AM (22h 55m)                                                     │
+│  gemini-2.5-pro             -    ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬    0%  9:21 AM (21h 41m)                                                      │
+│  gemini-3.1-flash-lite-…    -    ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬    1%  10:35 AM (22h 55m)                                                     │
+│  gemini-3.1-pro-preview     -    ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬    0%  9:21 AM (21h 41m)                                                      │
+│                                                                                                                                     │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+ > /stats model
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                                     │
+│  Auto (Gemini 3) Stats For Nerds                                                                                                    │
+│                                                                                                                                     │
+│  Auth Method:                Signed in with Google (user@example.com)                                                        │
+│  Tier:                       Gemini Code Assist in Google One AI Pro                                                                │
+│                                                                                                                                     │
+│  Metric                      gemini-2.5-flash-lite                              gemini-3-flash-preview                              │
+│  ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────  │
+│  API                                                                                                                                │
+│  Requests                    1                                                  8                                                   │
+│  Errors                      0 (0.0%)                                           0 (0.0%)                                            │
+│  Avg Latency                 2.8s                                               8.4s                                                │
+│  Tokens                                                                                                                             │
+│  Total                       5,982                                              148,018                                             │
+│    ↳ Input                   5,495                                              27,046                                              │
+│    ↳ Cache Reads             0 (0.0%)                                           116,721 (81.2%)                                     │
+│    ↳ Thoughts                397                                                3,445                                               │
+│    ↳ Output                  90                                                 806                                                 │
+│  Roles                                                                                                                              │
+│  main                                                                                                                               │
+│    ↳ Requests                -                                                  8                                                   │
+│    ↳ Input                   -                                                  27,046                                              │
+│    ↳ Output                  -                                                  806                                                 │
+│    ↳ Cache Reads             -                                                  116,721                                             │
+│  utility_router                                                                                                                     │
+│    ↳ Requests                1                                                  -                                                   │
+│    ↳ Input                   5,495                                              -                                                   │
+│    ↳ Output                  90                                                 -                                                   │
+│    ↳ Cache Reads             0                                                  -                                                   │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+ > /stats tools
+╭────────────────────────────────────────────────────────────────────╮
+│                                                                    │
+│  Tool Stats For Nerds                                              │
+│                                                                    │
+│  Tool Name                   Calls   Success Rate   Avg Duration   │
+│  ────────────────────────────────────────────────────────────────  │
+│  graph_query                     1         100.0%           12ms   │
+│  graph_search                    6         100.0%           14ms   │
+│  read_file                       7         100.0%           57ms   │
+│  run_shell_command               2         100.0%           3.2s   │
+│                                                                    │
+│  User Decision Summary                                             │
+│  Total Reviewed Suggestions:                                  14   │
+│   » Accepted:                                                 14   │
+│   » Rejected:                                                  0   │
+│   » Modified:                                                  0   │
+│  ────────────────────────────────────────────────────────────────  │
+│   Overall Agreement Rate:                                 100.0%   │
+╰────────────────────────────────────────────────────────────────────╯
+                                                                                                                       ? for shortcuts 
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ Shift+Tab to accept edits                                                                                            1 GEMINI.md file
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ >   Type your message or @path/to/file
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ workspace (/directory)                             branch                          sandbox                                     /model
+ /workspace/P3M_JAX                         main                            no sandbox                         Auto (Gemini 3)
+

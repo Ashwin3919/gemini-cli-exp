@@ -1,0 +1,251 @@
+
+
+               ████       ██████  ███████ ███    ███ ██ ███    ██ ██      ██████ ██      ██      ███████ ██   ██ ██████
+                ████     ██       ██      ████  ████ ██ ████   ██ ██     ██      ██      ██      ██       ██ ██  ██   ██
+                 ████    ██   ███ █████   ██ ████ ██ ██ ██ ██  ██ ██     ██      ██      ██      █████     ███   ██████
+                ████     ██    ██ ██      ██  ██  ██ ██ ██  ██ ██ ██     ██      ██      ██      ██       ██ ██  ██
+               ████       ██████  ███████ ██      ██ ██ ██   ████ ██      ██████ ███████ ██      ███████ ██   ██ ██      
+
+                                              Gemini Experimental CLI v0.36.0-experimental
+                                         Signed in with Google: user@example.com /auth
+                                         Plan: Gemini Code Assist in Google One AI Pro /upgrade
+
+                                            v0.36.0-experimental < ## beta experimental ## >
+
+
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ We're making changes to Gemini CLI that may impact your workflow.                                                                   │
+│ What's Changing: We are adding more robust detection of policy-violating use cases and changing how we prioritize traffic.          │
+│ How it affects you: This may result in higher capacity-related errors during periods of high traffic.                               │
+│ Read more: https://goo.gle/geminicli-updates                                                                                        │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+ > Starting from momentumEquation in PoissonVlasov, trace every function it calls — directly and transitively — down to leaf
+   functions. Output the complete call tree.
+✦ I will start by searching for the PoissonVlasov class and its momentumEquation method to begin tracing the call tree.
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✓  Graph Search Searching code index for "PoissonVlasov"                                                                        │
+│                                                                                                                                 │
+│ [                                                                                                                               │
+│   {                                                                                                                             │
+│     "id": "cls:PoissonVlasov",                                                                                                  │
+│     "type": "class",                                                                                                            │
+│     "name": "PoissonVlasov",                                                                                                    │
+│     "file": "src/physics/system.py",                                                                                            │
+│     "line": 9,                                                                                                                  │
+│     "args": null,                                                                                                               │
+│     "calls": [],                                                                                                                │
+│     "calledBy": []                                                                                                              │
+│   }                                                                                                                             │
+│ ]                                                                                                                               │
+│                                                                                                                                 │
+│ ✓  Graph Search Searching code index for "momentumEquation"                                                                     │
+│                                                                                                                                 │
+│ [                                                                                                                               │
+│   {                                                                                                                             │
+│     "id": "fn:momentumEquation",                                                                                                │
+│     "type": "function",                                                                                                         │
+│     "name": "momentumEquation",                                                                                                 │
+│     "file": "src/solver/state.py",                                                                                              │
+│     "line": 23,                                                                                                                 │
+│     "args": "self, s: State",                                                                                                   │
+│     "calls": [                                                                                                                  │
+│       "fn:da",                                                                                                                  │
+│       "fn:fill",                                                                                                                │
+│       "fn:md_cic_2d",                                                                                                           │
+│       "fn:abs",                                                                                                                 │
+│       "fn:mean",                                                                                                                │
+│       "fn:clear",                                                                                                               │
+│       "fn:imshow",                                                                                                              │
+│       "fn:log10",                                                                                                               │
+│       "fn:maximum",                                                                                                             │
+│       "fn:set_title",                                                                                                           │
+│       "fn:Field",                                                                                                               │
+│       "fn:fftn",                                                                                                                │
+│       "fn:Potential",                                                                                                           │
+│       "fn:ifftn",                                                                                                               │
+│       "fn:Interp2D",                                                                                                            │
+│       "fn:gradient_2nd_order",                                                                                                  │
+│       "fn:acc_x",                                                                                                               │
+│       "fn:acc_y",                                                                                                               │
+│       "fn:md_cic_nd",                                                                                                           │
+│       "fn:_pm_force",                                                                                                           │
+│       "fn:_pp_force"                                                                                                            │
+│     ],                                                                                                                          │
+│     "calledBy": [                                                                                                               │
+│       "fn:kick",                                                                                                                │
+│       "fn:leap_frog",                                                                                                           │
+│       "fn:test_pm_uniform_force_is_zero",                                                                                       │
+│       "fn:test_p3m_close_pair_force_larger_than_pm",                                                                            │
+│       "fn:test_uniform_density_zero_force",                                                                                     │
+│       "fn:test_pm_force_newton_third_law",                                                                                      │
+│       "fn:test_pm_force_direction_attractive",                                                                                  │
+│       "fn:test_pm_plus_pp_closer_to_direct_newtonian"                                                                           │
+│     ]                                                                                                                           │
+│   }                                                                                                                             │
+│ ]                                                                                                                               │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+✦ I will now check src/physics/system.py to examine the implementation of momentumEquation within the PoissonVlasov class.
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✓  ReadFile src/physics/system.py                                                                                               │
+│                                                                                                                                 │
+│ Read lines 9-128 of 128 from src/physics/system.py                                                                              │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+✦ I will now examine src/physics/cosmology.py to understand the Cosmology.da method and continue tracing the call tree.
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✓  ReadFile src/physics/cosmology.py                                                                                            │
+│                                                                                                                                 │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+✦ I've noted that Cosmology.da calls jnp.sqrt. I will now proceed to examine src/core/ops.py to analyze md_cic_nd, gradient_2nd_order,
+  and InterpND.
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✓  ReadFile src/core/ops.py                                                                                                     │
+│                                                                                                                                 │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+✦ I've mapped out the call tree for PoissonVlasov.momentumEquation, but I need to examine src/core/filters.py to understand the
+  Potential call and complete the picture.
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✓  ReadFile src/core/filters.py                                                                                                 │
+│                                                                                                                                 │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+✦ I have traced the call tree for PoissonVlasov.momentumEquation down to its leaf functions, including both direct and transitive
+  calls.
+
+  Call Tree: PoissonVlasov.momentumEquation
+
+  The following tree represents the execution flow of momentumEquation. Conditional paths (like the P3M short-range correction) are
+  noted.
+
+    1 PoissonVlasov.momentumEquation(s: State)
+    2 ├── Cosmology.da(a)
+    3 │   └── jnp.sqrt (Leaf)
+    4 ├── md_cic_nd(shape, pos)  [Alias: md_cic_2d]
+    5 │   ├── jnp.floor (Leaf)
+    6 │   ├── jnp.array (Leaf)
+    7 │   ├── jnp.prod (Leaf)
+    8 │   ├── jnp.where (Leaf)
+    9 │   ├── flat_tgt.at[flat_idx].add(weights) (Leaf)
+   10 │   └── flat_tgt.reshape (Leaf)
+   11 ├── jnp.fft.fftn (Leaf)
+   12 ├── jnp.fft.ifftn (Leaf)
+   13 ├── Cosmology.G (Property)
+   14 ├── PoissonVlasov._pm_force(x_grid, phi, da)
+   15 │   ├── gradient_2nd_order(F, i)
+   16 │   │   └── jnp.roll (Leaf)
+   17 │   ├── InterpND (Class Initialization) [Alias: Interp2D]
+   18 │   └── InterpND.__call__(pos)
+   19 │       ├── jnp.floor (Leaf)
+   20 │       ├── jnp.zeros (Leaf)
+   21 │       ├── jnp.prod (Leaf)
+   22 │       ├── jnp.where (Leaf)
+   23 │       ├── jnp.array (Leaf)
+   24 │       └── Indexing (self.data[...]) (Leaf)
+   25 └── PoissonVlasov._pp_force(pos, a, da)  [Conditional: if solver == "p3m"]
+   26     ├── PoissonVlasov._morton_encode(x_grid)
+   27     │   ├── jnp.floor (Leaf)
+   28     │   ├── jnp.zeros (Leaf)
+   29     │   └── Bitwise Ops (>>, &, <<, |) (Leaf)
+   30     ├── jnp.argsort (Leaf)
+   31     ├── jnp.arange (Leaf)
+   32     └── jax.vmap(force_on_i)
+   33         └── force_on_i(i)  [Closure]
+   34             ├── jnp.clip (Leaf)
+   35             ├── jnp.round (Leaf)
+   36             ├── jnp.sum (Leaf)
+   37             ├── jnp.sqrt (Leaf)
+   38             └── jax.scipy.special.erfc (Leaf)
+
+  Notes on specific components:
+   * self.kernel: While Potential is a complex filter object, it is evaluated once during PoissonVlasov.__init__ via
+     Potential()(self.box.K). In momentumEquation, it is treated as a pre-computed JAX array.
+   * Leaf Functions: Functions marked as (Leaf) are either standard JAX/NumPy operations or primitive language features that do not
+     branch further into project-specific code.
+   * md_cic_nd and InterpND: These use itertools.product to unroll corner loops at trace-time, resulting in a static sequence of JAX
+     operations in the compiled graph.
+ > /stats session
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                                     │
+│  Session Stats                                                                                                                      │
+│                                                                                                                                     │
+│  Interaction Summary                                                                                                                │
+│  Session ID:                 c489abc5-6da6-4f55-9f49-ab0692f8c24a                                                                   │
+│  Auth Method:                Signed in with Google (user@example.com)                                                        │
+│  Tier:                       Gemini Code Assist in Google One AI Pro                                                                │
+│  Tool Calls:                 6 ( ✓ 6 x 0 )                                                                                          │
+│  Success Rate:               100.0%                                                                                                 │
+│  User Agreement:             100.0% (6 reviewed)                                                                                    │
+│                                                                                                                                     │
+│  Performance                                                                                                                        │
+│  Wall Time:                  3m 42s                                                                                                 │
+│  Agent Active:               1m 41s                                                                                                 │
+│    » API Time:               1m 41s (99.9%)                                                                                         │
+│    » Tool Time:              135ms (0.1%)                                                                                           │
+│                                                                                                                                     │
+│  Model                   Reqs    Model usage                 Usage resets                                                           │
+│  ────────────────────────────────────────────────────────────────────────────────                                                   │
+│  gemini-2.5-flash-lite      1    ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬    1%  10:35 AM (21h 48m)                                                     │
+│  gemini-3-flash-preview     6    ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬   11%  10:35 AM (21h 48m)                                                     │
+│  gemini-2.5-flash           -    ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬   11%  10:35 AM (21h 48m)                                                     │
+│  gemini-2.5-pro             -    ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬    0%  12:48 PM (24h)                                                         │
+│  gemini-3.1-flash-lite-…    -    ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬    1%  10:35 AM (21h 48m)                                                     │
+│  gemini-3.1-pro-preview     -    ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬    0%  12:48 PM (24h)                                                         │
+│                                                                                                                                     │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+ > /stats tools
+╭────────────────────────────────────────────────────────────────────╮
+│                                                                    │
+│  Tool Stats For Nerds                                              │
+│                                                                    │
+│  Tool Name                   Calls   Success Rate   Avg Duration   │
+│  ────────────────────────────────────────────────────────────────  │
+│  graph_search                    2         100.0%           17ms   │
+│  read_file                       4         100.0%           26ms   │
+│                                                                    │
+│  User Decision Summary                                             │
+│  Total Reviewed Suggestions:                                   6   │
+│   » Accepted:                                                  6   │
+│   » Rejected:                                                  0   │
+│   » Modified:                                                  0   │
+│  ────────────────────────────────────────────────────────────────  │
+│   Overall Agreement Rate:                                 100.0%   │
+╰────────────────────────────────────────────────────────────────────╯
+ > /stats model
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                                     │
+│  Auto (Gemini 3) Stats For Nerds                                                                                                    │
+│                                                                                                                                     │
+│  Auth Method:                Signed in with Google (user@example.com)                                                        │
+│  Tier:                       Gemini Code Assist in Google One AI Pro                                                                │
+│                                                                                                                                     │
+│  Metric                      gemini-2.5-flash-lite                              gemini-3-flash-preview                              │
+│  ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────  │
+│  API                                                                                                                                │
+│  Requests                    1                                                  6                                                   │
+│  Errors                      0 (0.0%)                                           0 (0.0%)                                            │
+│  Avg Latency                 2.8s                                               16.4s                                               │
+│  Tokens                                                                                                                             │
+│  Total                       5,996                                              89,724                                              │
+│    ↳ Input                   5,484                                              37,961                                              │
+│    ↳ Cache Reads             0 (0.0%)                                           48,383 (56.0%)                                      │
+│    ↳ Thoughts                395                                                2,341                                               │
+│    ↳ Output                  117                                                1,039                                               │
+│  Roles                                                                                                                              │
+│  main                                                                                                                               │
+│    ↳ Requests                -                                                  6                                                   │
+│    ↳ Input                   -                                                  37,961                                              │
+│    ↳ Output                  -                                                  1,039                                               │
+│    ↳ Cache Reads             -                                                  48,383                                              │
+│  utility_router                                                                                                                     │
+│    ↳ Requests                1                                                  -                                                   │
+│    ↳ Input                   5,484                                              -                                                   │
+│    ↳ Output                  117                                                -                                                   │
+│    ↳ Cache Reads             0                                                  -                                                   │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                       ? for shortcuts 
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ Shift+Tab to accept edits                                                                                            1 GEMINI.md file
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ >   Type your message or @path/to/file
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ workspace (/directory)                             branch                          sandbox                                     /model
+ /workspace/P3M_JAX                         main                            no sandbox                         Auto (Gemini 3)
+
